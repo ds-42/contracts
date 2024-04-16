@@ -5,25 +5,25 @@ namespace Infrastructure.Persistence;
 
 internal sealed class DatabaseMigrator : IDatabaseMigrator
 {
-    private readonly DatabaseContext _dbApplicationDbContext;
+    private readonly DatabaseContext _dbContext;
 
-    public DatabaseMigrator(DatabaseContext dbApplicationDbContext)
+    public DatabaseMigrator(DatabaseContext dbContext)
     {
-        _dbApplicationDbContext = dbApplicationDbContext;
+        _dbContext = dbContext;
     }
 
     public Task MigrateAsync(CancellationToken cancellationToken)
     {
-        return _dbApplicationDbContext.Database.MigrateAsync(cancellationToken);
+        return _dbContext.Database.MigrateAsync(cancellationToken);
     }
 
     public void Migrate()
     {
-        _dbApplicationDbContext.Database.Migrate();
+        _dbContext.Database.Migrate();
     }
 
     public IEnumerable<string> GetPendingMigrations()
     {
-        return _dbApplicationDbContext.Database.GetPendingMigrations();
+        return _dbContext.Database.GetPendingMigrations();
     }
 }

@@ -5,7 +5,7 @@ namespace Core.Application.Extensions;
 
 public static class JsonSerializeExtension
 {
-    public static string JsonSerialize(this object value)
+    public static string JsonSerialize(this object? value)
     {
         return JsonSerializer.Serialize(value, new JsonSerializerOptions()
         {

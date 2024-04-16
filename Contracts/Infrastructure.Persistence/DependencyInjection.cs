@@ -17,9 +17,9 @@ public static class DependencyInjection
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             })
-/*            .AddScoped<IContextTransactionCreator, ContextTransactionCreator>()
+            .AddScoped<IContextTransactionCreator, ContextTransactionCreator>()
             .AddTransient(typeof(IBaseReadRepository<>), typeof(BaseRepository<>))
             .AddTransient(typeof(IBaseWriteRepository<>), typeof(BaseRepository<>))
-            .AddScoped<IDatabaseMigrator, DatabaseMigrator>()*/;
+            .AddScoped<IDatabaseMigrator, DatabaseMigrator>();
     }
 }

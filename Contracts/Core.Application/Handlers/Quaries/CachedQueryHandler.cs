@@ -1,19 +1,19 @@
-﻿using Core.Application.Extensions;
+﻿using Core.Application.Abstractions;
+using Core.Application.BaseRealizations;
+using Core.Application.Extensions;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Core.Application.Handlers.Quaries;
 
-public abstract class CachedQueryHandler<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
-    where TRequest : IRequest<TResponse>
+public abstract class CachedQueryHandler<TRequest, TResult> : IRequestHandler<TRequest, TResult>
+    where TRequest : IRequest<TResult>
 {
-    private readonly MemoryCache _cache;
-    private readonly int _cacheSize;
+    private readonly IBaseCache<TResult> _cache;
 
-    public CachedQueryHandler(MemoryCache cache, int cacheSize)
+    public CachedQueryHandler(IBaseCache<TResult> cache)
     {
         _cache = cache;
-        _cacheSize = cacheSize;
     }
 
     protected virtual string GetCacheKey(TRequest query)
@@ -22,27 +22,27 @@ public abstract class CachedQueryHandler<TRequest, TResponse> : IRequestHandler<
 //        return $"{query.GetType().Name}:{query.JsonSerialize()}";
     }
 
-    public async Task<TResponse> Handle(TRequest query, CancellationToken cancellationToken)
+    public async Task<TResult> Handle(TRequest query, CancellationToken cancellationToken)
     {
         var cacheKey = GetCacheKey(query);
 
-        if (_cache.TryGetValue(cacheKey, out TResponse? result))
+        if (_cache.TryGetValue(cacheKey, out TResult? result))
         {
             return result!;
         }
 
         result = await ExecQuery(query, cancellationToken);
 
-        var cacheEntryOptions = new MemoryCacheEntryOptions()
+/*        var cacheEntryOptions = new MemoryCacheEntryOptions()
             .SetAbsoluteExpiration(TimeSpan.FromSeconds(10))
             .SetSlidingExpiration(TimeSpan.FromSeconds(5))
-            .SetSize(_cacheSize);
+            .SetSize(_cacheSize);*/
 
-        _cache.Set(cacheKey, result, cacheEntryOptions);
+        _cache.Set(cacheKey, result, 1);
 
         return result;
     }
 
-    protected abstract Task<TResponse> ExecQuery(TRequest query, CancellationToken cancellationToken);
+    protected abstract Task<TResult> ExecQuery(TRequest query, CancellationToken cancellationToken);
 
 }

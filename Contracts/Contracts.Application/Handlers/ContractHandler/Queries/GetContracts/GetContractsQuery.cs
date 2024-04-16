@@ -1,4 +1,5 @@
-﻿using Core.Application.DTOs;
+﻿using Contracts.Application.DTOs;
+using Core.Application.DTOs;
 using MediatR;
 
 namespace Contracts.Application.Handlers.ContractHandler.Queries.GetContracts;
