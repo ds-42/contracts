@@ -1,4 +1,4 @@
-﻿namespace Core.Application.Handlers.Quaries;
+﻿namespace Core.Application.BaseRealizations;
 
 public class BaseFilter
 {

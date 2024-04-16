@@ -1,4 +1,4 @@
-﻿using Core.Application.Handlers.Quaries;
+﻿using Core.Application.BaseRealizations;
 
 namespace Contracts.Application.Handlers.ContractHandler.Queries;
 

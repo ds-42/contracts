@@ -22,8 +22,8 @@ public class OrgConfiguration : IEntityTypeConfiguration<Org>
 
         builder.HasMany(t => t.Employees).WithOne().HasForeignKey(t => t.OrgId);
 
-//        builder.HasOne(t => t.MailAddress).WithMany(t => t.Orgs).HasForeignKey(t => t.MailAddressId);
-//        builder.HasOne(t => t.JureAddress).WithMany(t => t.Orgs).HasForeignKey(t => t.JureAddressId);
+        builder.HasOne(t => t.MailAddress).WithMany().HasForeignKey(t => t.MailAddressId).OnDelete(DeleteBehavior.NoAction);
+        builder.HasOne(t => t.JureAddress).WithMany().HasForeignKey(t => t.JureAddressId).OnDelete(DeleteBehavior.NoAction);
 
     }
 }

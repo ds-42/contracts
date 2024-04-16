@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Common.Application.Controllers;
@@ -11,6 +12,13 @@ public class BaseController : ControllerBase
     { 
         _mediator = mediator;
     }
+
+    protected void SetTotalCountHeader(int value)
+    {
+        HttpContext.Response.Headers
+            .Append("X-Total-Count", value.ToString());
+    }
+
 
     protected async Task<T> ExecCommandAsync<T>(IRequest<T> command, CancellationToken cancellationToken = default)
     { 

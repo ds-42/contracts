@@ -1,4 +1,5 @@
-﻿using Contracts.Domain;
+﻿using Auth.Domain;
+using Contracts.Domain;
 using Core.Users.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -11,6 +12,12 @@ public class DatabaseContext : DbContext
     #region Users
 
     internal DbSet<User> Users { get; } = default!;
+
+    #endregion
+
+    #region Auth
+
+    internal DbSet<RefreshToken> RefreshTokens { get; } = default!;
 
     #endregion
 

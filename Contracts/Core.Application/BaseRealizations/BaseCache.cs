@@ -17,52 +17,23 @@ public abstract class BaseCache<TItem> : IBaseCache<TItem>
 
     protected virtual int SlidingExpiration => 5;
 
-    private string CreateCacheKey<TRequest>(TRequest request)
-    {
-        return request.JsonSerialize();
-    }
-
-    private string CreateCacheKey<TRequest>(TRequest request, string secondKey)
-    {
-        return $"{request.JsonSerialize()}_{secondKey}";
-    }
-
-    public void Set<TRequest>(TRequest request, string secondKey, TItem item, int size)
+    public void Set(string key, TItem item, int size)
     {
         var cacheEntryOptions = new MemoryCacheEntryOptions()
             .SetAbsoluteExpiration(TimeSpan.FromMinutes(AbsoluteExpiration))
             .SetSlidingExpiration(TimeSpan.FromMinutes(SlidingExpiration))
             .SetSize(size);
-        Cache.Set(CreateCacheKey(request, secondKey), item, cacheEntryOptions);
+        Cache.Set(key, item, cacheEntryOptions);
     }
 
-    public void Set<TRequest>(TRequest request, TItem item, int size)
+    public bool TryGetValue(string key, out TItem? item)
     {
-        var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(TimeSpan.FromMinutes(AbsoluteExpiration))
-            .SetSlidingExpiration(TimeSpan.FromMinutes(SlidingExpiration))
-            .SetSize(size);
-        Cache.Set(CreateCacheKey(request), item, cacheEntryOptions);
+        return Cache.TryGetValue(key, out item);
     }
 
-    public bool TryGetValue<TRequest>(TRequest request, out TItem? item)
+    public void DeleteItem(string key)
     {
-        return Cache.TryGetValue(CreateCacheKey(request), out item);
-    }
-
-    public bool TryGetValue<TRequest>(TRequest request, string secondKey, out TItem? item)
-    {
-        return Cache.TryGetValue(CreateCacheKey(request, secondKey), out item);
-    }
-
-    public void DeleteItem<TRequest>(TRequest request)
-    {
-        Cache.Remove(CreateCacheKey(request));
-    }
-
-    public void DeleteItem<TRequest>(TRequest request, string secondKey)
-    {
-        Cache.Remove(CreateCacheKey(request, secondKey));
+        Cache.Remove(key);
     }
 
     public void Clear()

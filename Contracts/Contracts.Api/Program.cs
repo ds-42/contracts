@@ -1,3 +1,4 @@
+using Contracts.Application;
 using Infrastructure.Persistence;
 using Serilog.Events;
 using Serilog;
@@ -20,6 +21,7 @@ try
 
     builder.Services.AddControllers();
     builder.Services
+        .AddContractsApplication()
         .AddPersistenceServices(builder.Configuration)
         .AddEndpointsApiExplorer()
         .AddSwaggerGen();

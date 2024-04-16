@@ -10,7 +10,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.HasKey(t => t.Id);
 
-        builder.Property(t => t.Name).HasMaxLength(100).IsRequired();
+        builder.Property(t => t.Login).HasMaxLength(100).IsRequired();
         builder.Property(t => t.Password).HasMaxLength(100).IsRequired();
     }
 }

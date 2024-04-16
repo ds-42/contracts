@@ -22,6 +22,6 @@ public class Org
 
     public Ownership? Ownership { get; set; }
 
-//    public Address? MailAddress { get; set; }
-//    public Address? JureAddress { get; set; }
+    public Address? MailAddress { get; set; }
+    public Address? JureAddress { get; set; }
 }

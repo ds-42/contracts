@@ -142,9 +142,38 @@ namespace Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_Orgs", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Orgs_Addresses_JureAddressId",
+                        column: x => x.JureAddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Orgs_Addresses_MailAddressId",
+                        column: x => x.MailAddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Orgs_Ownerships_OwnershipId",
                         column: x => x.OwnershipId,
                         principalTable: "Ownerships",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RefreshTokens",
+                columns: table => new
+                {
+                    RefreshTokenId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Expired = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshTokens", x => x.RefreshTokenId);
+                    table.ForeignKey(
+                        name: "FK_RefreshTokens_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -303,17 +332,29 @@ namespace Infrastructure.Persistence.Migrations
                 column: "FormatTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Orgs_JureAddressId",
+                table: "Orgs",
+                column: "JureAddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orgs_MailAddressId",
+                table: "Orgs",
+                column: "MailAddressId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orgs_OwnershipId",
                 table: "Orgs",
                 column: "OwnershipId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_UserId",
+                table: "RefreshTokens",
+                column: "UserId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Addresses");
-
             migrationBuilder.DropTable(
                 name: "ContractOrgs");
 
@@ -324,7 +365,7 @@ namespace Infrastructure.Persistence.Migrations
                 name: "Employees");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "RefreshTokens");
 
             migrationBuilder.DropTable(
                 name: "Contracts");
@@ -336,10 +377,16 @@ namespace Infrastructure.Persistence.Migrations
                 name: "Orgs");
 
             migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
                 name: "Currencies");
 
             migrationBuilder.DropTable(
                 name: "Formats");
+
+            migrationBuilder.DropTable(
+                name: "Addresses");
 
             migrationBuilder.DropTable(
                 name: "Ownerships");

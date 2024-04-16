@@ -1,3 +1,5 @@
+using Core.Users.Domain.Enums;
+
 namespace Core.Auth.Application.Abstractions.Service;
 
 public interface ICurrentUserService
@@ -5,7 +7,6 @@ public interface ICurrentUserService
     public int CurrentUserId { get; }
     public int CurrentOrgId { get; }
     
-//    public ApplicationUserRolesEnum[] CurrentUserRoles { get; }
-
-//    public bool UserInRole(ApplicationUserRolesEnum role);
+    public UserRole CurrentUserRole { get; }
+    public bool IsAdmin { get; }
 }

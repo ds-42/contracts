@@ -1,6 +1,8 @@
 ﻿using Common.Application.Controllers;
+using Contracts.Application.Handlers.ContractHandler.Queries.GetContracts;
+using Core.Application.Abstractions.Persistence.Repository.Read;
+using Core.Users.Domain;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Contracts.Api.Controllers;
@@ -10,22 +12,21 @@ namespace Contracts.Api.Controllers;
 [Route("api/[controller]")]
 public class ContractsController : BaseController
 {
-    public ContractsController(IMediator mediator) : base(mediator) 
+    protected IBaseReadRepository<User> _source;
+
+    public ContractsController(IBaseReadRepository<User> source, IMediator mediator) : base(mediator) 
     {
+        _source = source;
     }
 
-/*    [HttpGet]
-    public async Task<IActionResult> Get(
-        [FromQuery] GetListQuery getListQuery, CancellationToken cancellationToken = default)
+    [HttpGet]
+    public async Task<IActionResult> GetContracts(
+        [FromQuery] GetContractsQuery getListQuery, CancellationToken cancellationToken = default)
     {
-        var getCountQuery = new GetCountQuery() { OwnerId = getListQuery.OwnerId, Predicate = getListQuery.Predicate };
+        var data = await ExecQueryAsync(getListQuery, cancellationToken);
 
-        var items = await ExecQueryAsync(getListQuery, cancellationToken);
-        int count = await ExecQueryAsync(getCountQuery, cancellationToken);
-        HttpContext.Response.Headers
-            .Append("X-Total-Count", count.ToString());
-
-        return Ok(items);
-    }*/
+        SetTotalCountHeader(data.Count);
+        return Ok(data.Items);
+    }
 
 }

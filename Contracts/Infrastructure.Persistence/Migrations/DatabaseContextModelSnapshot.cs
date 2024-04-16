@@ -22,6 +22,25 @@ namespace Infrastructure.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Auth.Domain.RefreshToken", b =>
+                {
+                    b.Property<Guid>("RefreshTokenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Expired")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RefreshTokenId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("Contracts.Domain.Address", b =>
                 {
                     b.Property<int>("Id")
@@ -372,6 +391,10 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("JureAddressId");
+
+                    b.HasIndex("MailAddressId");
+
                     b.HasIndex("OwnershipId");
 
                     b.ToTable("Orgs");
@@ -427,6 +450,17 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Auth.Domain.RefreshToken", b =>
+                {
+                    b.HasOne("Core.Users.Domain.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Contracts.Domain.Contract", b =>
@@ -506,11 +540,27 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Contracts.Domain.Org", b =>
                 {
+                    b.HasOne("Contracts.Domain.Address", "JureAddress")
+                        .WithMany()
+                        .HasForeignKey("JureAddressId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Contracts.Domain.Address", "MailAddress")
+                        .WithMany()
+                        .HasForeignKey("MailAddressId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Contracts.Domain.Ownership", "Ownership")
                         .WithMany()
                         .HasForeignKey("OwnershipId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("JureAddress");
+
+                    b.Navigation("MailAddress");
 
                     b.Navigation("Ownership");
                 });
