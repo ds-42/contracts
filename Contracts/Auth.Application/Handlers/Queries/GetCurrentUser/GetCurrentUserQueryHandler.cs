@@ -1,4 +1,4 @@
-using Auth.Application.Dtos;
+using Auth.Application.DTOs;
 using AutoMapper;
 using Core.Application.Abstractions.Persistence.Repository.Read;
 using Core.Application.Exceptions;
@@ -10,14 +10,14 @@ namespace Auth.Application.Handlers.Queries.GetCurrentUser;
 
 internal class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery, GetUserDto>
 {
-    private readonly IBaseReadRepository<ApplicationUser> _users;
+    private readonly IBaseReadRepository<User> _users;
     
     private readonly ICurrentUserService _currentUserService;
     
     private readonly IMapper _mapper;
 
     public GetCurrentUserQueryHandler(
-        IBaseReadRepository<ApplicationUser> users, 
+        IBaseReadRepository<User> users, 
         ICurrentUserService currentUserService,
         IMapper mapper)
     {
@@ -29,7 +29,7 @@ internal class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery,
     public async Task<GetUserDto> Handle(GetCurrentUserQuery request,  CancellationToken cancellationToken)
     {
         var user = await _users.AsAsyncRead()
-            .SingleOrDefaultAsync(e => e.ApplicationUserId == _currentUserService.CurrentUserId, cancellationToken);
+            .SingleOrDefaultAsync(e => e.Id == _currentUserService.CurrentUserId, cancellationToken);
 
         if (user is null)
         {

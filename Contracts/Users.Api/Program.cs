@@ -1,9 +1,14 @@
-using Contracts.Application;
 using Core.Api;
+using Core.Auth.Api;
+using Users.Application;
 using Infrastructure.Persistence;
+using System.Reflection;
 
-try 
+try
 {
+/*    const string appPrefix = "UM";
+    const string version = "v1";
+    const string appName = "Users management API v1";*/
 
     var builder = WebApplication.CreateBuilder(args);
 
@@ -11,10 +16,13 @@ try
 
     builder.Services.AddControllers();
     builder.Services
-        .AddContractsApplication()
+//        .AddSwaggerWidthJwtAuth(Assembly.GetExecutingAssembly(), appName, version, appName)
+        .AddSwaggerGen()
+        .AddUsersApplication()
+        .AddCoreApiServices()
+        .AddCoreAuthApiServices(builder.Configuration)
         .AddPersistenceServices(builder.Configuration)
-        .AddEndpointsApiExplorer()
-        .AddSwaggerGen();
+        .AddEndpointsApiExplorer();
 
     var app = builder.Build();
 
@@ -33,7 +41,7 @@ try
 
     app.Run();
 }
-catch (Exception ex)
+catch (Exception ex) 
 {
     CoreApi.FatalException(ex);
 }

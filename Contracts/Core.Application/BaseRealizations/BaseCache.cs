@@ -1,6 +1,7 @@
 ﻿using Core.Application.Abstractions;
 using Core.Application.Extensions;
 using Microsoft.Extensions.Caching.Memory;
+using System.Security.Policy;
 
 
 namespace Core.Application.BaseRealizations;
@@ -38,7 +39,6 @@ public abstract class BaseCache<TItem> : IBaseCache<TItem>
 
     public void Clear()
     {
-        throw new NotImplementedException();
-//        Cache.Clear();
+        Cache.Clear();
     }
 }

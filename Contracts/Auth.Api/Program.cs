@@ -1,17 +1,19 @@
-using Contracts.Application;
+using Auth.Application;
 using Core.Api;
+using Core.Auth.Api;
 using Infrastructure.Persistence;
 
 try 
 {
-
     var builder = WebApplication.CreateBuilder(args);
 
     builder.Host.UseApiLogger(builder.Configuration);
 
     builder.Services.AddControllers();
     builder.Services
-        .AddContractsApplication()
+        .AddAuthApplication()
+        .AddCoreApiServices()
+        .AddCoreAuthApiServices(builder.Configuration)
         .AddPersistenceServices(builder.Configuration)
         .AddEndpointsApiExplorer()
         .AddSwaggerGen();

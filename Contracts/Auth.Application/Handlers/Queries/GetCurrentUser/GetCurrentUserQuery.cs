@@ -4,5 +4,5 @@ using MediatR;
 
 namespace Auth.Application.Handlers.Queries.GetCurrentUser;
 
-[RequestAuthorize]
+//lai [RequestAuthorize]
 public class GetCurrentUserQuery : IRequest<GetUserDto>;
