@@ -249,9 +249,8 @@ namespace Infrastructure.Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("WWW")
                         .IsRequired()
@@ -349,10 +348,10 @@ namespace Infrastructure.Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("JureAddressId")
+                    b.Property<int?>("JureAddressId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MailAddressId")
+                    b.Property<int?>("MailAddressId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -360,7 +359,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<int>("OwnershipId")
+                    b.Property<int?>("OwnershipId")
                         .HasColumnType("int");
 
                     b.Property<string>("Phone")
@@ -398,6 +397,29 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasIndex("OwnershipId");
 
                     b.ToTable("Orgs");
+                });
+
+            modelBuilder.Entity("Contracts.Domain.OrgAdmin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("OrgId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrgId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("OrgAdmins");
                 });
 
             modelBuilder.Entity("Contracts.Domain.Ownership", b =>
@@ -543,26 +565,41 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasOne("Contracts.Domain.Address", "JureAddress")
                         .WithMany()
                         .HasForeignKey("JureAddressId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Contracts.Domain.Address", "MailAddress")
                         .WithMany()
                         .HasForeignKey("MailAddressId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Contracts.Domain.Ownership", "Ownership")
                         .WithMany()
-                        .HasForeignKey("OwnershipId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OwnershipId");
 
                     b.Navigation("JureAddress");
 
                     b.Navigation("MailAddress");
 
                     b.Navigation("Ownership");
+                });
+
+            modelBuilder.Entity("Contracts.Domain.OrgAdmin", b =>
+                {
+                    b.HasOne("Contracts.Domain.Org", "Org")
+                        .WithMany()
+                        .HasForeignKey("OrgId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Users.Domain.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Org");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Contracts.Domain.Contract", b =>

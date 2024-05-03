@@ -30,7 +30,7 @@ public class CreateUserCommandHandler(
         {
             Login = login,
             Password = PasswordHashUtil.Hash(command.Password),
-            Role = admin? UserRole.Admin : UserRole.Client,
+            Role = admin? ApplicationUserRolesEnum.Admin : ApplicationUserRolesEnum.Client,
         };
 
         _cache.Clear();

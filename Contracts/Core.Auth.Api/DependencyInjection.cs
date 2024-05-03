@@ -1,8 +1,12 @@
 using Core.Auth.Application.Abstractions.Service;
+using Core.Users.Domain.Enums;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Text;
 
 namespace Core.Auth.Api;
 
@@ -10,7 +14,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddCoreAuthApiServices(this IServiceCollection services, IConfiguration configuration)
     {
-/**        services.AddAuthorization()
+        services.AddAuthorization()
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -31,11 +35,11 @@ public static class DependencyInjection
         authBuilder
             .AddPolicy(AuthorizationPoliciesEnum.AdminGreetings.ToString(), policy =>
                 policy.RequireRole(ApplicationUserRolesEnum.Admin.ToString()));
-   */     
+   
         return services.AddTransient<ICurrentUserService, CurrentUserService>();
     }
 
-/*    public static IServiceCollection AddSwaggerWidthJwtAuth(
+    public static IServiceCollection AddSwaggerWidthJwtAuth(
         this IServiceCollection services,
         Assembly apiAssembly,
         string appName,
@@ -56,8 +60,9 @@ public static class DependencyInjection
                 {
                     Description = """
                                   JWT Authorization header using the Bearer scheme. \r\n\r\n
-                                                        Enter 'Bearer' [space] and then your token in the text input below.
-                                                        \r\n\r\nExample: 'Bearer 12345abcdef'
+                                  Enter 'Bearer' [space] and then your token in the text input below.
+                                  \r\n\r\n
+                                  Example: 'Bearer 12345abcdef'
                                   """,
                     Name = "Authorization",
                     In = ParameterLocation.Header,
@@ -85,7 +90,7 @@ public static class DependencyInjection
 
                 // using System.Reflection;
                 var xmlFilename = $"{apiAssembly.GetName().Name}.xml";
-                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+//                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
-    }*/
+    }
 }

@@ -2,9 +2,9 @@
 
 namespace Core.Application.Exceptions;
 
-public class ForbiddenException : BaseException
+public class ForbiddenException : CustomException
 {
-    public ForbiddenException() : base(new { Message = "Forbidden" }, HttpStatusCode.Forbidden)
+    public ForbiddenException() : base("Forbidden", HttpStatusCode.Forbidden)
     {
     }
 }

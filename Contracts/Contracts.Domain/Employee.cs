@@ -10,11 +10,11 @@ public class Employee
     public string Name { get; set; } = default!;
     public string Patronymic { get; set; } = default!;
     public string PostName { get; set; } = default!;
-    public string Operating { get; set; } = default!;
-    public string PhoneWork { get; set; } = default!;
-    public string PhoneMobile { get; set; } = default!;
-    public string WWW { get; set; } = default!;
-    public string EMail { get; set; } = default!;
-    public string UserId { get; set; } = default!;
+    public string? Operating { get; set; }
+    public string? PhoneWork { get; set; }
+    public string? PhoneMobile { get; set; }
+    public string? WWW { get; set; }
+    public string? EMail { get; set; }
+    public int UserId { get; set; }
     public EmployeeRole Role { get; set; }
 }

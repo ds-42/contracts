@@ -19,7 +19,7 @@ public class AuthorizePermissionsBehavior<TRequest, TResponse>(ICurrentUserServi
             return next();
         }
 
-        if (currentUserService.CurrentUserId == 0) throw new UnauthorizedException();
+        if (currentUserService.Id == 0) throw new UnauthorizedException();
 
         if (requestAuthorizeAttribute.Role is null)
         {

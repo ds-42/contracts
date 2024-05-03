@@ -21,7 +21,7 @@ public interface IAsyncRead<TEntity>
     Task<TResult[]> ToArrayAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken);
     
     Task<int> CountAsync(CancellationToken cancellationToken);
-    Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
+    Task<int> CountAsync(Expression<Func<TEntity, bool>>? predicate, CancellationToken cancellationToken);
     Task<int> CountAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken);
     
     Task<bool> AnyAsync(CancellationToken cancellationToken);

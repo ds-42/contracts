@@ -2,9 +2,9 @@
 
 namespace Core.Application.Exceptions;
 
-public class AccessDeniedException : BaseException
+public class AccessDeniedException : CustomException
 {
-    public AccessDeniedException() : base(new { Message = "Access denied" }, HttpStatusCode.Forbidden)
+    public AccessDeniedException() : base("Access denied", HttpStatusCode.Forbidden)
     {
     }
 }

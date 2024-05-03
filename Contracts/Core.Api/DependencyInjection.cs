@@ -1,4 +1,3 @@
-//using Core.Api.JsonSerializer;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -9,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.OpenApi.Models;
+using Core.Api.JsonSerializer;
 
 namespace Core.Api;
 
@@ -20,7 +20,7 @@ public static class DependencyInjection
             .AddHttpContextAccessor()
             .Configure<JsonOptions>(options =>
             {
-/*                options.SerializerOptions.Converters.Add(new TrimmingConverter());*/
+                options.SerializerOptions.Converters.Add(new TrimmingConverter());
                 options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             })
@@ -41,7 +41,7 @@ public static class DependencyInjection
                 rollingInterval: RollingInterval.Day, retainedFileCountLimit: 30, buffered: true));
     }
 
-/*public static IServiceCollection AddAllCors(this IServiceCollection services)
+public static IServiceCollection AddAllCors(this IServiceCollection services)
 {
     return services
         .AddCors(options =>
@@ -54,7 +54,7 @@ public static class DependencyInjection
                 policy.WithExposedHeaders("*");
             });
         });
-}*/
+}
         
 /*    public static IServiceCollection AddSwagger(
         this IServiceCollection services,

@@ -20,6 +20,7 @@ public class OrgConfiguration : IEntityTypeConfiguration<Org>
 
         builder.HasOne(t => t.Ownership).WithMany().HasForeignKey(t => t.OwnershipId);
 
+//        builder.HasMany(t => t.Admins).WithOne().HasForeignKey(t => t.OrgId).OnDelete(DeleteBehavior.NoAction); 
         builder.HasMany(t => t.Employees).WithOne().HasForeignKey(t => t.OrgId);
 
         builder.HasOne(t => t.MailAddress).WithMany().HasForeignKey(t => t.MailAddressId).OnDelete(DeleteBehavior.NoAction);

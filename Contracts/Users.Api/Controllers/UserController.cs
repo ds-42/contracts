@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using MediatR;
-using Common.Application.Controllers;
 using Users.Application.Handlers.Commands.CreateUser;
+using Core.Api.Controllers;
 
 namespace Users.Api.Controllers;
 

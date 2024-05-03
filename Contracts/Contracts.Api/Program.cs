@@ -1,9 +1,16 @@
 using Contracts.Application;
 using Core.Api;
+using Core.Api.Middlewares;
+using Core.Application;
+using Core.Auth.Api;
+using Core.Auth.Application;
 using Infrastructure.Persistence;
+using System.Reflection;
 
 try 
 {
+    const string version = "v1";
+    const string appName = $"Contracts API {version}";
 
     var builder = WebApplication.CreateBuilder(args);
 
@@ -11,23 +18,32 @@ try
 
     builder.Services.AddControllers();
     builder.Services
-        .AddContractsApplication()
+        .AddSwaggerWidthJwtAuth(Assembly.GetExecutingAssembly(), appName, version, appName)
+        .AddCoreApiServices()
+        .AddCoreApplicationServices()
+        .AddCoreAuthApiServices(builder.Configuration)
         .AddPersistenceServices(builder.Configuration)
-        .AddEndpointsApiExplorer()
-        .AddSwaggerGen();
+        .AddCoreAuthServices()
+        .AddAllCors()
+        .AddContractsApplication()
+        .AddEndpointsApiExplorer();
 
     var app = builder.Build();
 
-    // Configure the HTTP request pipeline.
+//    app.RunDbMigrations().RegisterApis(Assembly.GetExecutingAssembly(), $"api/{version}");
+
+    app.UseCoreExceptionHandler();
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
         app.UseSwaggerUI();
     }
 
-    app.UseHttpsRedirection();
+    app.UseAuthentication();
 
     app.UseAuthorization();
+
+    app.UseHttpsRedirection();
 
     app.MapControllers();
 

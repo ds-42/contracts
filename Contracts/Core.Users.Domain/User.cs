@@ -7,5 +7,5 @@ public class User
     public int Id { get; set; }
     public string Login { get; set; } = default!;
     public string Password { get; set; } = default!;
-    public UserRole Role { get; set; }
+    public ApplicationUserRolesEnum Role { get; set; }
 }

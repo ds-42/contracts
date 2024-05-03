@@ -1,12 +1,12 @@
 using System.Net;
-using System.Text.Json;
 using Core.Application.Exceptions;
+using Core.Application.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
-namespace Core.Auth.Application.Middlewares;
+namespace Core.Api.Middlewares;
 
-internal class AuthorizationExceptionsHandlerMiddleware(RequestDelegate next)
+internal class CoreExceptionsHandlerMiddleware(RequestDelegate next)
 {
     public async Task Invoke(HttpContext context)
     {
@@ -26,22 +26,22 @@ internal class AuthorizationExceptionsHandlerMiddleware(RequestDelegate next)
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     context.Response.ContentType = "application/json";
 
-                    await context.Response.WriteAsync(JsonSerializer.Serialize(new 
+                    await context.Response.WriteAsync((new
                     {
                         error = e.Message,
                         innerMessage = e.InnerException?.Message,
                         e.StackTrace,
-                    }));
+                    }).JsonSerialize());
                     break;
             }
         }
     }
 }
 
-public static class AuthorizationExceptionsHandlerMiddlewareExtensions
+public static class CoreExceptionsHandlerMiddlewareExtensions
 {
-    public static IApplicationBuilder UseAuthExceptionHandler(this IApplicationBuilder builder)
+    public static IApplicationBuilder UseCoreExceptionHandler(this IApplicationBuilder builder)
     {
-        return builder.UseMiddleware<AuthorizationExceptionsHandlerMiddleware>();
+        return builder.UseMiddleware<CoreExceptionsHandlerMiddleware>();
     }
 }

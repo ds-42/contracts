@@ -11,7 +11,7 @@ public class GetUserDto : IMapFrom<User>
 
     public string Login { get; set; } = default!;
 
-    public UserRole Role { get; set; } = default!;
+    public ApplicationUserRolesEnum Role { get; set; } = default!;
 
     public void CreateMap(Profile profile)
     {

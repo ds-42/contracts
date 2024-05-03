@@ -127,10 +127,10 @@ namespace Infrastructure.Persistence.Migrations
                     Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     ShortName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     ViewName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    OwnershipId = table.Column<int>(type: "int", nullable: false),
+                    OwnershipId = table.Column<int>(type: "int", nullable: true),
                     AddressGroup = table.Column<int>(type: "int", nullable: false),
-                    MailAddressId = table.Column<int>(type: "int", nullable: false),
-                    JureAddressId = table.Column<int>(type: "int", nullable: false),
+                    MailAddressId = table.Column<int>(type: "int", nullable: true),
+                    JureAddressId = table.Column<int>(type: "int", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     WWW = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     EMail = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -155,8 +155,7 @@ namespace Infrastructure.Persistence.Migrations
                         name: "FK_Orgs_Ownerships_OwnershipId",
                         column: x => x.OwnershipId,
                         principalTable: "Ownerships",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -227,7 +226,7 @@ namespace Infrastructure.Persistence.Migrations
                     PhoneMobile = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     WWW = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     EMail = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -237,6 +236,32 @@ namespace Infrastructure.Persistence.Migrations
                         name: "FK_Employees_Orgs_OrgId",
                         column: x => x.OrgId,
                         principalTable: "Orgs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrgAdmins",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrgId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrgAdmins", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrgAdmins_Orgs_OrgId",
+                        column: x => x.OrgId,
+                        principalTable: "Orgs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrgAdmins_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -332,6 +357,16 @@ namespace Infrastructure.Persistence.Migrations
                 column: "FormatTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrgAdmins_OrgId",
+                table: "OrgAdmins",
+                column: "OrgId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrgAdmins_UserId",
+                table: "OrgAdmins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orgs_JureAddressId",
                 table: "Orgs",
                 column: "JureAddressId");
@@ -363,6 +398,9 @@ namespace Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "OrgAdmins");
 
             migrationBuilder.DropTable(
                 name: "RefreshTokens");

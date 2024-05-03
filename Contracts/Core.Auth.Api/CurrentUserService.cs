@@ -1,6 +1,7 @@
 ﻿using Core.Auth.Application.Abstractions.Service;
 using Core.Users.Domain.Enums;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json.Linq;
 using System.Security.Claims;
 
 namespace Core.Auth.Api;
@@ -23,9 +24,15 @@ public class CurrentUserService : ICurrentUserService
 
     public bool IsAdmin => throw new NotImplementedException();
 
-    public int CurrentUserId => throw new NotImplementedException();
+    public int Id 
+    {
+        get 
+        {
+            return 1;
+            var val = _httpContextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+            return int.Parse(val);
+        }
+    }
 
-    public int CurrentOrgId => throw new NotImplementedException();
-
-    public UserRole CurrentUserRole => throw new NotImplementedException();
+    public ApplicationUserRolesEnum CurrentUserRole => throw new NotImplementedException();
 }

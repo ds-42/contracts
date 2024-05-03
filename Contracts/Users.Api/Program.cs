@@ -3,6 +3,7 @@ using Core.Auth.Api;
 using Users.Application;
 using Infrastructure.Persistence;
 using System.Reflection;
+using Core.Application;
 
 try
 {
@@ -18,6 +19,7 @@ try
     builder.Services
 //        .AddSwaggerWidthJwtAuth(Assembly.GetExecutingAssembly(), appName, version, appName)
         .AddSwaggerGen()
+        .AddCoreApplicationServices()
         .AddUsersApplication()
         .AddCoreApiServices()
         .AddCoreAuthApiServices(builder.Configuration)

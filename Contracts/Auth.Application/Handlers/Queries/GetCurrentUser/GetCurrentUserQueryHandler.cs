@@ -29,11 +29,11 @@ internal class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery,
     public async Task<GetUserDto> Handle(GetCurrentUserQuery request,  CancellationToken cancellationToken)
     {
         var user = await _users.AsAsyncRead()
-            .SingleOrDefaultAsync(e => e.Id == _currentUserService.CurrentUserId, cancellationToken);
+            .SingleOrDefaultAsync(e => e.Id == _currentUserService.Id, cancellationToken);
 
         if (user is null)
         {
-            throw new NotFoundException($"User with id {_currentUserService.CurrentUserId}");
+            throw new NotFoundException($"User with id {_currentUserService.Id}");
         }
 
         return _mapper.Map<GetUserDto>(user);

@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Handlers\ContractHandler\Commands\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
   </ItemGroup>
 
   <ItemGroup>

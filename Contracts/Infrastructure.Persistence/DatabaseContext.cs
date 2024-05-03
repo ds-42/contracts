@@ -35,6 +35,7 @@ public class DatabaseContext : DbContext
     internal DbSet<ContractOrg> ContractOrgs { get; } = default!;
     internal DbSet<Employee> Employees { get; } = default!;
     internal DbSet<Org> Orgs { get; } = default!;
+    internal DbSet<OrgAdmin> OrgAdmins { get; } = default!;
     internal DbSet<Ownership> Ownerships { get; } = default!;
 
     #endregion

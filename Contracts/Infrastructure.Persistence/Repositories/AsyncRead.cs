@@ -84,9 +84,16 @@ public class AsyncRead<TEntity> : IAsyncRead<TEntity>
         return _internalQueryable.CountAsync(cancellationToken);
     }
 
-    public Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
+    public Task<int> CountAsync(Expression<Func<TEntity, bool>>? predicate, CancellationToken cancellationToken)
     {
-        return _internalQueryable.CountAsync(predicate, cancellationToken);
+        if (predicate == null)
+        {
+            return _internalQueryable.CountAsync(cancellationToken);
+        }
+        else
+        {
+            return _internalQueryable.CountAsync(predicate, cancellationToken);
+        }
     }
 
     public Task<int> CountAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
