@@ -13,6 +13,7 @@ public class ContractConfiguration : IEntityTypeConfiguration<Contract>
         builder.Property(t => t.Number).HasMaxLength(20).IsRequired();
         builder.Property(t => t.Description).HasMaxLength(200).IsRequired();
 
+        builder.Property(t => t.PlannedPrice).HasPrecision(18, 6);
 
         builder.HasOne(t => t.Format).WithMany().HasForeignKey(t => t.FormatId);
         builder.HasOne(t => t.Currency).WithMany().HasForeignKey(t => t.CurrencyId);

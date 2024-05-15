@@ -1,5 +1,5 @@
-﻿using Contracts.Application.Handlers.EmployeeHandler;
-using Contracts.Application.Handlers.OrgHandler;
+﻿using Contracts.Application.Handlers.OrgHandler.Commands.CreateOrg;
+using Contracts.Application.Handlers.OrgHandler.Queries.GetOrgs;
 using Core.Api.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +12,7 @@ public class OrgsController(IMediator mediator)
 
     [HttpGet]
     public async Task<IActionResult> GetContracts(
-        [FromQuery] OrgsGetQuery query, CancellationToken cancellationToken = default)
+        [FromQuery] GetOrgsQuery query, CancellationToken cancellationToken = default)
     {
         var data = await ExecQueryAsync(query, cancellationToken);
 
@@ -22,11 +22,11 @@ public class OrgsController(IMediator mediator)
 
     [HttpPost]
     public async Task<IActionResult> CreateOrg(
-        OrgAddCommand command, CancellationToken cancellationToken = default)
+        CreateOrgCommand command, CancellationToken cancellationToken = default)
     {
         var org = await ExecQueryAsync(command, cancellationToken);
 
-        return Created($"orgs/{org.Id}", org);
+        return Created($"Orgs/{org.Id}", org);
     }
 
 }

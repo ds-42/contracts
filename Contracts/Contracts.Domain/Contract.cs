@@ -8,7 +8,7 @@ public class Contract
     public DateTime StartDate { get; set; }
     public DateTime? FinishDate { get; set; }
     public int FormatId { get; set; }
-    public double PlannedPrice { get; set; }
+    public decimal PlannedPrice { get; set; }
     public int CurrencyId { get; set; }
     public string Description { get; set; } = default!;
     public int DocumentsGroup { get; set; }

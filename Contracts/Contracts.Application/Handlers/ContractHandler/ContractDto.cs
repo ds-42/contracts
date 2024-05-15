@@ -3,8 +3,9 @@ using Core.Application.Abstractions.Mappings;
 
 namespace Contracts.Application.Handlers.ContractHandler;
 
-public class ContractView : IMapTo<Contract>
+public class ContractDto : IMapTo<Contract>
 {
+    public int Id { get; set; }
     public string Number { get; set; } = default!;
     public DateTime RegistryDate { get; set; }
     public DateTime StartDate { get; set; }

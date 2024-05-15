@@ -188,7 +188,7 @@ namespace Infrastructure.Persistence.Migrations
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FinishDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     FormatId = table.Column<int>(type: "int", nullable: false),
-                    PlannedPrice = table.Column<double>(type: "float", nullable: false),
+                    PlannedPrice = table.Column<decimal>(type: "decimal(18,6)", precision: 18, scale: 6, nullable: false),
                     CurrencyId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     DocumentsGroup = table.Column<int>(type: "int", nullable: false)

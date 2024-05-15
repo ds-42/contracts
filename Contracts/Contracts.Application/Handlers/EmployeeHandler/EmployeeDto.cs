@@ -3,7 +3,7 @@ using Core.Application.Abstractions.Mappings;
 
 namespace Contracts.Application.Handlers.EmployeeHandler;
 
-public class EmployeeView : IMapFrom<Employee>
+public class EmployeeDto : IMapFrom<Employee>
 {
     public int Id { get; set; }
     public string Surname { get; set; } = default!;

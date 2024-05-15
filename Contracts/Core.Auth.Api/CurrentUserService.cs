@@ -1,7 +1,7 @@
-﻿using Core.Auth.Application.Abstractions.Service;
+﻿using Core.Application.Exceptions;
+using Core.Auth.Application.Abstractions.Service;
 using Core.Users.Domain.Enums;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json.Linq;
 using System.Security.Claims;
 
 namespace Core.Auth.Api;
@@ -22,11 +22,11 @@ public class CurrentUserService : ICurrentUserService
             .Select(t => t.Value)
             .ToArray();**/
 
-    public bool IsAdmin => throw new NotImplementedException();
+    public bool IsAdmin => CurrentUserRole == ApplicationUserRolesEnum.Admin;
 
-    public int Id 
+    public int Id
     {
-        get 
+        get
         {
             return 1;
             var val = _httpContextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
@@ -34,5 +34,22 @@ public class CurrentUserService : ICurrentUserService
         }
     }
 
-    public ApplicationUserRolesEnum CurrentUserRole => throw new NotImplementedException();
+    public ApplicationUserRolesEnum CurrentUserRole
+    {
+        get
+        {
+            return Id switch
+            {
+                1 => ApplicationUserRolesEnum.Admin,
+                _ => ApplicationUserRolesEnum.Client,
+            };
+        }
+    }
+
+    public void TestAccess()
+    {
+        if (!IsAdmin)
+            throw new AccessDeniedException();
+    }
+
 }

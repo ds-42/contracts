@@ -8,4 +8,5 @@ public class Format
     public int FormatTypeId { get; set; }
 
     public FormatType FormatType { get; set; } = default!;
+    // навигационные поля для организации
 }

@@ -6,14 +6,17 @@ namespace Contracts.Application.Extensions;
 
 public static class EmployeeExtension
 {
-    public static async Task<Employee> GetItem(this IBaseReadRepository<Employee> source, int orgId, int userId, CancellationToken cancellationToken)
+    public static async Task<Employee?> FindItem(this IBaseReadRepository<Employee> source, int orgId, int userId, CancellationToken cancellationToken)
     {
-        var rec = await source.AsAsyncRead()
+        return await source.AsAsyncRead()
             .SingleOrDefaultAsync(t => t.OrgId == orgId && t.UserId == userId, cancellationToken);
+    }
+
+    public static async Task TestAccess(this IBaseReadRepository<Employee> source, int orgId, int userId, CancellationToken cancellationToken)
+    {
+        var rec = await FindItem(source, orgId, userId, cancellationToken);
 
         if (rec == null)
             throw new AccessDeniedException();
-
-        return rec;
     }
 }

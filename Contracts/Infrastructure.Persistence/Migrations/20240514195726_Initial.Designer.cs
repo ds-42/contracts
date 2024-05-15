@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240502222902_Initial")]
+    [Migration("20240514195726_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -95,8 +95,9 @@ namespace Infrastructure.Persistence.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<double>("PlannedPrice")
-                        .HasColumnType("float");
+                    b.Property<decimal>("PlannedPrice")
+                        .HasPrecision(18, 6)
+                        .HasColumnType("decimal(18,6)");
 
                     b.Property<DateTime>("RegistryDate")
                         .HasColumnType("datetime2");

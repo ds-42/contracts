@@ -6,14 +6,17 @@ namespace Contracts.Application.Extensions;
 
 public static class UserExtension
 {
-    public static async Task<User> GetItem(this IBaseReadRepository<User> users, int Id, CancellationToken cancellationToken)
+    public static async Task<User?> FindItem(this IBaseReadRepository<User> users, int Id, CancellationToken cancellationToken)
     {
-        var rec = await users.AsAsyncRead()
+        return await users.AsAsyncRead()
             .SingleOrDefaultAsync(t => t.Id == Id, cancellationToken);
+    }
+
+    public static async Task TestExists(this IBaseReadRepository<User> users, int Id, CancellationToken cancellationToken)
+    {
+        var rec = await FindItem(users, Id, cancellationToken);
 
         if (rec == null)
-            throw new AccessDeniedException();
-
-        return rec;
+            throw new NotFoundException($"User with id={Id} not found");
     }
 }

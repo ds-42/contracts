@@ -11,6 +11,7 @@ public static class DependencyInjection
     {
         return services
             .AddSingleton<ContractMemoryCache>()
+            .AddSingleton<CurrencyMemoryCache>()
             .AddSingleton<EmployeeMemoryCache>()
             .AddSingleton<OrgMemoryCache>()
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()))
