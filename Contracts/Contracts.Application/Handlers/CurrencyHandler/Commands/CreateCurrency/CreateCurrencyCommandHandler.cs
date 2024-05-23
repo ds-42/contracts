@@ -2,6 +2,7 @@
 using Contracts.Application.Cashes;
 using Contracts.Application.Extensions;
 using Contracts.Application.Handlers.ContractHandler;
+using Contracts.Application.Handlers.FormatHandler;
 using Contracts.Domain;
 using Core.Application.Abstractions.Persistence.Repository.Writing;
 using Core.Application.Exceptions;

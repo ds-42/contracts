@@ -1,7 +1,6 @@
 ﻿using Contracts.Domain;
 using Core.Application.Abstractions.Persistence.Repository.Read;
 using Core.Application.Exceptions;
-using Microsoft.EntityFrameworkCore;
 
 namespace Contracts.Application.Extensions;
 

@@ -1,4 +1,5 @@
 ﻿using Contracts.Application.Handlers.ContractHandler;
+using Contracts.Application.Handlers.FormatHandler;
 using Contracts.Domain;
 using MediatR;
 

@@ -5,4 +5,4 @@ using Core.Application.DTOs;
 
 namespace Contracts.Application.Cashes;
 
-public class CurrencyMemoryCache : BaseCache<CountableList<CurrencyDto>>;
+public class FormatMemoryCache : BaseCache<CountableList<FormatDto>>;

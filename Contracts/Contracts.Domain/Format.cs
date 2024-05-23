@@ -7,6 +7,6 @@ public class Format
     public string Name { get; set; } = default!;
     public int FormatTypeId { get; set; }
 
+    public Org Org { get; set; } = default!;
     public FormatType FormatType { get; set; } = default!;
-    // навигационные поля для организации
 }

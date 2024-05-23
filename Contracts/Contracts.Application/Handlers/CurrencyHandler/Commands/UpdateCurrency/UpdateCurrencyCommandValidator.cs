@@ -1,4 +1,5 @@
 ﻿using Contracts.Application.Handlers.EmployeeHandler;
+using Contracts.Application.Handlers.FormatHandler;
 
 namespace Contracts.Application.Handlers.CurrencyHandler.Commands.UpdateCurrency;
 

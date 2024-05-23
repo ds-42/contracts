@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Contracts.Application.Cashes;
+﻿using Contracts.Application.Cashes;
 using Contracts.Application.Extensions;
 using Contracts.Domain;
 using Core.Application.Abstractions.Persistence.Repository.Writing;

@@ -98,27 +98,6 @@ namespace Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Formats",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrgId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    FormatTypeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Formats", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Formats_FormatTypes_FormatTypeId",
-                        column: x => x.FormatTypeId,
-                        principalTable: "FormatTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Orgs",
                 columns: table => new
                 {
@@ -178,39 +157,6 @@ namespace Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Contracts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Number = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    RegistryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FinishDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    FormatId = table.Column<int>(type: "int", nullable: false),
-                    PlannedPrice = table.Column<decimal>(type: "decimal(18,6)", precision: 18, scale: 6, nullable: false),
-                    CurrencyId = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    DocumentsGroup = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Contracts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Contracts_Currencies_CurrencyId",
-                        column: x => x.CurrencyId,
-                        principalTable: "Currencies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Contracts_Formats_FormatId",
-                        column: x => x.FormatId,
-                        principalTable: "Formats",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
@@ -241,6 +187,32 @@ namespace Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Formats",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrgId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    FormatTypeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Formats", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Formats_FormatTypes_FormatTypeId",
+                        column: x => x.FormatTypeId,
+                        principalTable: "FormatTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Formats_Orgs_OrgId",
+                        column: x => x.OrgId,
+                        principalTable: "Orgs",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OrgAdmins",
                 columns: table => new
                 {
@@ -262,6 +234,39 @@ namespace Infrastructure.Persistence.Migrations
                         name: "FK_OrgAdmins_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Contracts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Number = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    RegistryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FinishDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FormatId = table.Column<int>(type: "int", nullable: false),
+                    PlannedPrice = table.Column<decimal>(type: "decimal(18,6)", precision: 18, scale: 6, nullable: false),
+                    CurrencyId = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    DocumentsGroup = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contracts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Contracts_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currencies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Contracts_Formats_FormatId",
+                        column: x => x.FormatId,
+                        principalTable: "Formats",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -357,6 +362,11 @@ namespace Infrastructure.Persistence.Migrations
                 column: "FormatTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Formats_OrgId",
+                table: "Formats",
+                column: "OrgId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrgAdmins_OrgId",
                 table: "OrgAdmins",
                 column: "OrgId");
@@ -412,9 +422,6 @@ namespace Infrastructure.Persistence.Migrations
                 name: "Files");
 
             migrationBuilder.DropTable(
-                name: "Orgs");
-
-            migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
@@ -424,13 +431,16 @@ namespace Infrastructure.Persistence.Migrations
                 name: "Formats");
 
             migrationBuilder.DropTable(
+                name: "FormatTypes");
+
+            migrationBuilder.DropTable(
+                name: "Orgs");
+
+            migrationBuilder.DropTable(
                 name: "Addresses");
 
             migrationBuilder.DropTable(
                 name: "Ownerships");
-
-            migrationBuilder.DropTable(
-                name: "FormatTypes");
         }
     }
 }

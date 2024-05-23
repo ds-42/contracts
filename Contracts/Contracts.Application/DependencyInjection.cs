@@ -13,6 +13,8 @@ public static class DependencyInjection
             .AddSingleton<ContractMemoryCache>()
             .AddSingleton<CurrencyMemoryCache>()
             .AddSingleton<EmployeeMemoryCache>()
+            .AddSingleton<FormatMemoryCache>()
+            .AddSingleton<FormatTypeMemoryCache>()
             .AddSingleton<OrgMemoryCache>()
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()))
             .AddAutoMapper(Assembly.GetExecutingAssembly())

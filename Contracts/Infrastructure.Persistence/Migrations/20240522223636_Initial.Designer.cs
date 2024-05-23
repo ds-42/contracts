@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240514195726_Initial")]
+    [Migration("20240522223636_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -312,6 +312,8 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("FormatTypeId");
 
+                    b.HasIndex("OrgId");
+
                     b.ToTable("Formats");
                 });
 
@@ -561,7 +563,15 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Contracts.Domain.Org", "Org")
+                        .WithMany()
+                        .HasForeignKey("OrgId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("FormatType");
+
+                    b.Navigation("Org");
                 });
 
             modelBuilder.Entity("Contracts.Domain.Org", b =>

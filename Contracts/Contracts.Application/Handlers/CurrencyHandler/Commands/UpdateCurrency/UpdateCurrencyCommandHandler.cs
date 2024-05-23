@@ -3,6 +3,8 @@ using Contracts.Application.Cashes;
 using Contracts.Application.Extensions;
 using Contracts.Application.Handlers.ContractHandler;
 using Contracts.Application.Handlers.CurrencyHandler.Commands.UpdateCurrency;
+using Contracts.Application.Handlers.FormatHandler;
+using Contracts.Application.Handlers.FormatHandler.Commands.UpdateFormat;
 using Contracts.Domain;
 using Core.Application.Abstractions.Persistence.Repository.Writing;
 using Core.Application.Exceptions;

@@ -1,5 +1,6 @@
 ﻿using Contracts.Application.Handlers.CurrencyHandler.Commands.CreateCurrency;
 using Contracts.Application.Handlers.CurrencyHandler.Commands.UpdateCurrency;
+using Contracts.Application.Handlers.FormatHandler.Commands.CreateFormat;
 
 namespace Contracts.Application.Handlers.EmployeeHandler.Queries.GetEmployees;
 

@@ -2,6 +2,9 @@
 using Contracts.Application.Handlers.CurrencyHandler.Commands.DeleteCurrency;
 using Contracts.Application.Handlers.CurrencyHandler.Commands.UpdateCurrency;
 using Contracts.Application.Handlers.CurrencyHandler.Queries.GetCurrencies;
+using Contracts.Application.Handlers.FormatHandler.Commands.CreateFormat;
+using Contracts.Application.Handlers.FormatHandler.Commands.UpdateFormat;
+using Contracts.Application.Handlers.FormatHandler.Queries.GetFormats;
 using Core.Api.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
