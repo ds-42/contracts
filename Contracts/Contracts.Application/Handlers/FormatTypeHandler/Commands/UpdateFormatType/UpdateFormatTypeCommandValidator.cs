@@ -1,14 +1,10 @@
-﻿using Contracts.Application.Handlers.FormatHandler;
-using Contracts.Application.Handlers.FormatHandler.Commands.UpdateFormat;
+﻿namespace Contracts.Application.Handlers.FormatTypeHandler.Commands.UpdateFormatType;
 
-namespace Contracts.Application.Handlers.FormatTypeHandler.Commands.UpdateFormatType;
-
-public class UpdateFormatCommandValidator : FormatValidator<UpdateFormatCommand>
+public class UpdateFormatTypeCommandValidator : FormatTypeValidator<UpdateFormatTypeCommand>
 {
-    public UpdateFormatCommandValidator()
+    public UpdateFormatTypeCommandValidator()
     {
         RuleForId(t => t.Id);
-        RuleForId(t => t.FormatTypeId);
         RuleForName(t => t.Name);
     }
 }

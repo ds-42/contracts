@@ -34,6 +34,27 @@ public class CurrentUserService : ICurrentUserService
         }
     }
 
+
+    /*
+        protected int OrganizationId { get {
+                var orgId = HttpContext.Request.Headers["OrganizationId"];
+    /*            org.ToString();
+                foreach (var header in HttpContext.Request.Headers)
+                {
+                    header.Value
+                    stringBuilder.Append($"<tr><td>{header.Key}</td><td>{header.Value}</td></tr>");
+                }
+                HttpContext.
+                HttpContext.Request.Headers.TryGetValue("OrganizationId", out StringValues headerValue);
+                headerValue.
+
+                    var id = HttpContext.Request.Headers["OrganizationId"];
+            return 0;
+
+        } }
+
+     */
+
     public ApplicationUserRolesEnum CurrentUserRole
     {
         get

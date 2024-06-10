@@ -1,4 +1,5 @@
 using Core.Application.Abstractions.Persistence;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Persistence;
 
@@ -15,4 +16,6 @@ internal class ContextTransactionCreator : IContextTransactionCreator
     {
         return new ContextTransaction(await _dbContext.Database.BeginTransactionAsync(cancellationToken));
     }
+
+    public dynamic? CurrentTransaction => _dbContext.Database.CurrentTransaction;
 }

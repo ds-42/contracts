@@ -1,4 +1,5 @@
 ﻿using Contracts.Application.Cashes;
+using Contracts.Application.Services;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -12,10 +13,13 @@ public static class DependencyInjection
         return services
             .AddSingleton<ContractMemoryCache>()
             .AddSingleton<CurrencyMemoryCache>()
+            .AddSingleton<DocumentMemoryCache>()
             .AddSingleton<EmployeeMemoryCache>()
             .AddSingleton<FormatMemoryCache>()
             .AddSingleton<FormatTypeMemoryCache>()
             .AddSingleton<OrgMemoryCache>()
+            .AddSingleton<OwnershipMemoryCache>()
+            .AddTransient<СontractorService>()
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()))
             .AddAutoMapper(Assembly.GetExecutingAssembly())
             .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), includeInternalTypes: true);

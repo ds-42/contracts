@@ -1,5 +1,4 @@
-﻿using Contracts.Application.Handlers.ContractHandler;
-using Contracts.Application.Handlers.FormatHandler;
+﻿using Contracts.Application.Handlers.FormatHandler;
 using Core.Application.BaseRealizations;
 using Core.Application.DTOs;
 

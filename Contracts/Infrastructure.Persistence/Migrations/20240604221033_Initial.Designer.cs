@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240522223636_Initial")]
+    [Migration("20240604221033_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -84,8 +84,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int>("DocumentsGroup")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("FinishDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly?>("FinishDate")
+                        .HasColumnType("date");
 
                     b.Property<int>("FormatId")
                         .HasColumnType("int");
@@ -99,11 +99,11 @@ namespace Infrastructure.Persistence.Migrations
                         .HasPrecision(18, 6)
                         .HasColumnType("decimal(18,6)");
 
-                    b.Property<DateTime>("RegistryDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("RegistryDate")
+                        .HasColumnType("date");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date");
 
                     b.HasKey("Id");
 
@@ -182,8 +182,8 @@ namespace Infrastructure.Persistence.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<DateTime>("RegistryDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("RegistryDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -193,8 +193,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FileId");
-
-                    b.HasIndex("GroupId");
 
                     b.ToTable("Documents");
                 });
@@ -279,10 +277,13 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("FileName")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -537,12 +538,6 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Contracts.Domain.Contract", null)
-                        .WithMany("Documents")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("File");
                 });
 
@@ -618,8 +613,6 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Contracts.Domain.Contract", b =>
                 {
-                    b.Navigation("Documents");
-
                     b.Navigation("Orgs");
                 });
 

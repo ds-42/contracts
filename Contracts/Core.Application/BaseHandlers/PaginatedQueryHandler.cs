@@ -25,6 +25,11 @@ public abstract class PaginatedQueryHandler<TModel, TRequest, TResult> : BaseCac
         _mapper = mapper;
     }
 
+    protected virtual async Task<Expression<Func<TModel, bool>>?> FilterAsync(TRequest query, CancellationToken cancellationToken)
+    {
+        return await Task.FromResult(Filter(query));
+    }
+
     protected virtual Expression<Func<TModel, bool>>? Filter(TRequest query)
     {
         return null;
@@ -37,7 +42,7 @@ public abstract class PaginatedQueryHandler<TModel, TRequest, TResult> : BaseCac
 
     protected override async Task<CountableList<TResult>> ExecQuery(TRequest query, CancellationToken cancellationToken)
     {
-        var filter = Filter(query);
+        var filter = await FilterAsync(query, cancellationToken);
 
         var items = await _source.AsAsyncRead().GetListAsync(
             offset: query.Offset,

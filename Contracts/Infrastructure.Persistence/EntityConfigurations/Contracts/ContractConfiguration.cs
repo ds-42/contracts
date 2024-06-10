@@ -18,10 +18,10 @@ public class ContractConfiguration : IEntityTypeConfiguration<Contract>
         builder.HasOne(t => t.Format).WithMany().HasForeignKey(t => t.FormatId);
         builder.HasOne(t => t.Currency).WithMany().HasForeignKey(t => t.CurrencyId);
 
-        builder
+/*        builder
             .HasMany(t => t.Documents)
             .WithOne()
-            .HasForeignKey(t => t.GroupId);
+            .HasPrincipalKey(t => t.GroupId);*/
 
         builder
             .HasMany(e => e.Orgs)

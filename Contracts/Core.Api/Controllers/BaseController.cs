@@ -1,6 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
+using System.Text;
+using System;
 
 namespace Core.Api.Controllers;
 
@@ -20,7 +23,6 @@ public class BaseController : ControllerBase
         HttpContext.Response.Headers
             .Append("X-Total-Count", value.ToString());
     }
-
 
     protected async Task<T> ExecCommandAsync<T>(IRequest<T> command, CancellationToken cancellationToken = default)
     {

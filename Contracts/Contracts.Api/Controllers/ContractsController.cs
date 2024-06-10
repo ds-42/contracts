@@ -1,5 +1,7 @@
-﻿using Contracts.Application.Handlers.ContractHandler.Commands.ContractAdd;
+﻿using Contracts.Application.Handlers.ContractDocHandler.Commands.CreateContractDoc;
+using Contracts.Application.Handlers.ContractHandler.Commands.CreateContract;
 using Contracts.Application.Handlers.ContractHandler.Queries.GetContracts;
+using Contracts.Application.Handlers.DocumentHandler.Commands.CreateDocument;
 using Core.Api.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +33,4 @@ public class ContractsController : AuthController
 
         return Created($"Contracts/{contract.Id}", contract);
     }
-
-
 }

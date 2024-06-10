@@ -20,5 +20,4 @@ public static class OrgAdminExtension
         if (rec == null)
             throw new AccessDeniedException();
     }
-
 }

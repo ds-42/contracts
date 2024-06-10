@@ -7,7 +7,7 @@ using Core.Auth.Application.Abstractions.Service;
 using MediatR;
 
 
-namespace Contracts.Application.Handlers.ContractHandler.Commands.ContractAdd;
+namespace Contracts.Application.Handlers.ContractHandler.Commands.CreateContract;
 
 public class CreateContractCommandHandler(
     IBaseWriteRepository<Contract> contracts,

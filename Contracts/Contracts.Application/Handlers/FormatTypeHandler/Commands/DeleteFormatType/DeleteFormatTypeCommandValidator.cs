@@ -1,12 +1,13 @@
-﻿using Contracts.Application.Handlers.FormatHandler;
-using Contracts.Application.Handlers.FormatHandler.Commands.DeleteFormat;
+﻿using FluentValidation;
 
 namespace Contracts.Application.Handlers.FormatTypeHandler.Commands.DeleteFormatType;
 
-public class DeleteFormatCommandValidator : FormatValidator<DeleteFormatCommand>
+public class DeleteFormatTypeCommandValidator : AbstractValidator<DeleteFormatTypeCommand>
 {
-    public DeleteFormatCommandValidator()
+    public DeleteFormatTypeCommandValidator()
     {
-        RuleForId(t => t.Id);
+        RuleFor(t => t.Id)
+            .NotNull()
+            .GreaterThan(0);
     }
 }

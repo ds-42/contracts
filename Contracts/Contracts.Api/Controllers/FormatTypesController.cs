@@ -2,6 +2,9 @@
 using Contracts.Application.Handlers.FormatTypeHandler.Commands.DeleteFormatType;
 using Contracts.Application.Handlers.FormatTypeHandler.Commands.UpdateFormatType;
 using Contracts.Application.Handlers.FormatTypeHandler.Queries.GetFormatTypes;
+using Contracts.Application.Handlers.OwnershipHandler.Commands.CreateOwnership;
+using Contracts.Application.Handlers.OwnershipHandler.Commands.UpdateOwnership;
+using Contracts.Application.Handlers.OwnershipHandler.Queries.GetOwnership;
 using Core.Api.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

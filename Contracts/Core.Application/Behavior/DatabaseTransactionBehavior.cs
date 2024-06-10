@@ -16,6 +16,11 @@ public class DatabaseTransactionBehavior<TRequest, TResponse> : IPipelineBehavio
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
+        if (_applicationContextTransactionCreator.CurrentTransaction != null) 
+        {   // уже в транзакции 
+            return await next();
+        }
+
         using var transaction = await _applicationContextTransactionCreator.BeginTransactionAsync(cancellationToken);
         try
         {

@@ -3,6 +3,7 @@
 public class File
 {
     public int Id { get; set; }
-    public string Description { get; set; } = default!;
+    public int UserId { get; set; }
+    public string FileName { get; set; } = default!;
     public DateTime Date { get; set; }
 }

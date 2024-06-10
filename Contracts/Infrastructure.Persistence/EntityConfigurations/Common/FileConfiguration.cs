@@ -10,7 +10,7 @@ public class FileConfiguration : IEntityTypeConfiguration<File>
     {
         builder.HasKey(t => t.Id);
 
-        builder.Property(t => t.Description).HasMaxLength(200).IsRequired();
+        builder.Property(t => t.FileName).HasMaxLength(200).IsRequired();
     }
 }
 

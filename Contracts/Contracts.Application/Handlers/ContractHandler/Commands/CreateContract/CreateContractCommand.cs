@@ -1,15 +1,15 @@
 ﻿using Contracts.Domain;
 using MediatR;
 
-namespace Contracts.Application.Handlers.ContractHandler.Commands.ContractAdd;
+namespace Contracts.Application.Handlers.ContractHandler.Commands.CreateContract;
 
 public class CreateContractCommand : IRequest<ContractDto>
 {
     public int OrgId { get; set; }
     public string Number { get; set; } = default!;
-    public DateTime RegistryDate { get; set; }
-    public DateTime StartDate { get; set; }
-    public DateTime? FinishDate { get; set; }
+    public DateOnly RegistryDate { get; set; }
+    public DateOnly StartDate { get; set; }
+    public DateOnly? FinishDate { get; set; }
     public int FormatId { get; set; }
     public decimal PlannedPrice { get; set; }
     public int CurrencyId { get; set; }
