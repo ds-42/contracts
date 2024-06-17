@@ -1,14 +1,10 @@
-﻿using Contracts.Application.Handlers.DocumentHandler;
-using Contracts.Application.Handlers.DocumentHandler.Commands.CreateDocument;
-using MediatR;
+﻿using Contracts.Application.Handlers.DocumentHandler.Commands.CreateDocument;
 
 namespace Contracts.Application.Handlers.ContractDocHandler.Commands.CreateContractDoc;
 
-public class CreateContractDocCommand : IRequest<DocumentDto>
+public class CreateContractDocCommand : CreateDocumentCommand
 {
     public int ContractId { get; set; }
-
-    public CreateDocumentCommand Document { get; set; } = default!;
 }
 
 

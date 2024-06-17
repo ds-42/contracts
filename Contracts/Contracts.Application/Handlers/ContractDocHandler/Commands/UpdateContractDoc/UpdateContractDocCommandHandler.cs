@@ -1,21 +1,28 @@
-﻿using Contracts.Application.Handlers.DocumentHandler;
+﻿using Contracts.Application.Cashes;
+using Contracts.Application.Handlers.DocumentHandler;
 using Contracts.Application.Services;
-using Contracts.Domain;
-using Core.Application.Abstractions.Persistence.Repository.Writing;
 using MediatR;
 
 namespace Contracts.Application.Handlers.ContractDocHandler.Commands.UpdateContractDoc;
 
 public class UpdateContractDocCommandHandler(
-    СontractorService contractor)
+    СontractorService contractor,
+    DocumentService docs,
+    ContractMemoryCache cache)
         : IRequestHandler<UpdateContractDocCommand, DocumentDto>
 {
     public async Task<DocumentDto> Handle(UpdateContractDocCommand command, CancellationToken cancellationToken)
     {
-        await contractor.TestContractAccess(command.ContractId, cancellationToken);
+        await contractor.TestAccess(cancellationToken);
 
-        command.Document.Group = await contractor.GetContractDocumentGroupAsync(command.ContractId, cancellationToken);
+        var contract = await contractor.GetContractAsync(command.ContractId, cancellationToken);
 
-        return await contractor.ExecCommandAsync(command.Document, cancellationToken);
+        command.Group = contract.DocumentsGroup;
+
+        var doc = await docs.UpdateDocumentAsync(command, cancellationToken);
+
+        cache.Clear();
+
+        return doc;
     }
 }

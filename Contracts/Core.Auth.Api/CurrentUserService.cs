@@ -34,6 +34,15 @@ public class CurrentUserService : ICurrentUserService
         }
     }
 
+    public int OrgId
+    {
+        get
+        {
+            return 1;
+            var val = _httpContextAccessor.HttpContext!.User.FindFirst(ClaimTypes.UserData)!.Value;
+            return int.Parse(val);
+        }
+    }
 
     /*
         protected int OrganizationId { get {

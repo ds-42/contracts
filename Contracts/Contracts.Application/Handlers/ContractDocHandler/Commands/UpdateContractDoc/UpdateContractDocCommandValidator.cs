@@ -1,11 +1,5 @@
-﻿//namespace Contracts.Application.Handlers.FormatHandler.Commands.UpdateFormat;
+﻿using Contracts.Application.Handlers.DocumentHandler.Commands.UpdateDocument;
 
-//public class UpdateFormatCommandValidator : FormatValidator<UpdateFormatCommand>
-//{
-//    public UpdateFormatCommandValidator()
-//    {
-//        RuleForId(t => t.Id);
-//        RuleForId(t => t.FormatTypeId);
-//        RuleForName(t => t.Name);
-//    }
-//}
+namespace Contracts.Application.Handlers.ContractDocHandler.Commands.UpdateContractDoc;
+
+public class UpdateContractDocCommandValidator : UpdateDocumentCommandValidator;

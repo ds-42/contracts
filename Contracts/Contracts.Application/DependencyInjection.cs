@@ -11,6 +11,7 @@ public static class DependencyInjection
     public static IServiceCollection AddContractsApplication(this IServiceCollection services)
     {
         return services
+            .AddSingleton<AddressMemoryCache>()
             .AddSingleton<ContractMemoryCache>()
             .AddSingleton<CurrencyMemoryCache>()
             .AddSingleton<DocumentMemoryCache>()
@@ -19,7 +20,11 @@ public static class DependencyInjection
             .AddSingleton<FormatTypeMemoryCache>()
             .AddSingleton<OrgMemoryCache>()
             .AddSingleton<OwnershipMemoryCache>()
+
+            .AddTransient<AddressService>()
             .AddTransient<СontractorService>()
+            .AddTransient<DocumentService>()
+
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()))
             .AddAutoMapper(Assembly.GetExecutingAssembly())
             .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), includeInternalTypes: true);

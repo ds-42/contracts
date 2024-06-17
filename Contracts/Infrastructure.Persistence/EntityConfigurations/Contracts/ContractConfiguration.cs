@@ -15,17 +15,9 @@ public class ContractConfiguration : IEntityTypeConfiguration<Contract>
 
         builder.Property(t => t.PlannedPrice).HasPrecision(18, 6);
 
-        builder.HasOne(t => t.Format).WithMany().HasForeignKey(t => t.FormatId);
         builder.HasOne(t => t.Currency).WithMany().HasForeignKey(t => t.CurrencyId);
+        builder.HasOne(t => t.Format).WithMany().HasForeignKey(t => t.FormatId);
+        builder.HasOne(t => t.Org).WithMany().HasForeignKey(t => t.OrgId);
 
-/*        builder
-            .HasMany(t => t.Documents)
-            .WithOne()
-            .HasPrincipalKey(t => t.GroupId);*/
-
-        builder
-            .HasMany(e => e.Orgs)
-            .WithOne(e => e.Contract)
-            .HasForeignKey(e => e.ContractId);
     }
 }

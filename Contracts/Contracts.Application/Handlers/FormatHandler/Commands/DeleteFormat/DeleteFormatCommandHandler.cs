@@ -15,7 +15,7 @@ public class DeleteFormatCommandHandler(
 {
     public async Task<bool> Handle(DeleteFormatCommand command, CancellationToken cancellationToken)
     {
-        var format = await formats.GetItem(command.Id, cancellationToken);
+        var format = await formats.GetItem(user.OrgId, command.Id, cancellationToken);
 
         await employees.TestAccess(format.OrgId, user.Id, cancellationToken);
 

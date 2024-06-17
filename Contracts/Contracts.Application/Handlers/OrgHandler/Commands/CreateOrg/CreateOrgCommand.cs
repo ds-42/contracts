@@ -8,7 +8,7 @@ public class CreateOrgCommand : IRequest<OrgDto>
     public string Name { get; set; } = default!;
     public string ShortName { get; set; } = default!;
     public string ViewName { get; set; } = default!;
-    public int OwnershipId { get; set; }
+    public int? OwnershipId { get; set; }
 
     public Org Map() => new()
     {
@@ -23,7 +23,6 @@ public class CreateOrgCommand : IRequest<OrgDto>
         Phone = "",
         WWW = "",
         EMail = "",
-        ContractsGroup = 0,
         SertificateFileId = 0,
         Verified = false,
     };

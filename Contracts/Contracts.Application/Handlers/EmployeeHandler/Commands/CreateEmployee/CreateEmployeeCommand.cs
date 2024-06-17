@@ -6,7 +6,6 @@ namespace Contracts.Application.Handlers.EmployeeHandler.Commands.CreateEmployee
 
 public class CreateEmployeeCommand : IRequest<EmployeeDto>
 {
-    public int OrgId { get; set; }
     public required string Surname { get; init; }
     public required string Name { get; init; }
     public required string Patronymic { get; init; }
@@ -21,7 +20,8 @@ public class CreateEmployeeCommand : IRequest<EmployeeDto>
     public Employee Map() => new()
     {
         Id = 0,
-        OrgId = OrgId,
+        OrgId = 0,
+        UserId = UserId,
         Surname = Surname,
         Name = Name,
         Patronymic = Patronymic,
@@ -31,7 +31,6 @@ public class CreateEmployeeCommand : IRequest<EmployeeDto>
         PhoneMobile = PhoneMobile,
         WWW = WWW,
         EMail = EMail,
-        UserId = UserId,
         Role = Role,
     };
 }

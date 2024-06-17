@@ -17,9 +17,9 @@ public class UpdateFormatCommandHandler(
 {
     public async Task<FormatDto> Handle(UpdateFormatCommand command, CancellationToken cancellationToken)
     {
-        var format = await formats.GetItem(command.Id, cancellationToken);
+        await employees.TestAccess(user.OrgId, user.Id, cancellationToken);
 
-        await employees.TestAccess(format.OrgId, user.Id, cancellationToken);
+        var format = await formats.GetItem(user.OrgId, command.Id, cancellationToken);
 
         _mapper.Map(command, format);
 

@@ -4,60 +4,48 @@ using Core.Application.Abstractions.Persistence.Repository.Read;
 using Core.Application.Abstractions.Persistence.Repository.Writing;
 using Core.Application.Exceptions;
 using Core.Auth.Application.Abstractions.Service;
-using MediatR;
 
 namespace Contracts.Application.Services;
 
 public class СontractorService(
     IBaseWriteRepository<Contract> contracts,
     IBaseReadRepository<Employee> employes,
-    IBaseReadRepository<ContractOrg> orgs,
-    IMediator mediator,
+    IBaseWriteRepository<Org> orgs,
     ICurrentUserService user)
 {
-    public async Task<T> ExecCommandAsync<T>(IRequest<T> command, CancellationToken cancellationToken = default)
+
+    public int OrgId => user.OrgId;
+    public int UserId => user.Id;
+
+    public async Task TestAccess(CancellationToken cancellationToken)
     {
-        return await mediator.Send(command, cancellationToken);
+        await employes.TestAccess(user.OrgId, user.Id, cancellationToken);
     }
 
-    public async Task<T> ExecQueryAsync<T>(IRequest<T> query, CancellationToken cancellationToken = default)
+    #region Orgs
+
+    public async Task<Org> GetOrgAsync(CancellationToken cancellationToken)
     {
-        return await mediator.Send(query, cancellationToken);
-    }
+        var org = await orgs.AsAsyncRead()
+            .SingleOrDefaultAsync(t => t.Id == user.OrgId, cancellationToken);
 
-    public async Task TestAccess(int orgId, CancellationToken cancellationToken)
-    {
-        await employes.TestAccess(orgId, user.Id, cancellationToken);
-    }
-
-    public async Task TestContractAccess(int contractId, CancellationToken cancellationToken)
-    {
-        // чтение владельца договора
-        var codes = await GetContractOrgs(contractId, cancellationToken);
-
-        // проверка явлется ли пользователь сотрудником организации
-        var recs = await employes.AsAsyncRead()
-            .ToArrayAsync(t => t.UserId == user.Id, cancellationToken);
-
-        if (!recs.Any(t => codes.Contains(t.OrgId)))
+        if (org == null)
             throw new AccessDeniedException();
 
-        //        var test = employes.AsAsyncRead()
-        //            .Any(t => codes.Contains(t.OrgId));
+        return org;
     }
 
-    public async Task<int[]> GetContractOrgs(int contractId, CancellationToken cancellationToken)
-    {
-        var recs = await orgs.AsAsyncRead()
-            .ToArrayAsync(t => t.ContractId == contractId, cancellationToken);
+    public async Task SaveOrgAsync(Org org, CancellationToken cancellationToken) =>
+        await orgs.UpdateAsync(org, cancellationToken);
 
-        return recs.Select(t => t.OrgId).ToArray() ?? [];
-    }
+    #endregion
+
+    #region Contracts
 
     public async Task<Contract> GetContractAsync(int contractId, CancellationToken cancellationToken)
     {
         var contract = await contracts.AsAsyncRead()
-            .SingleOrDefaultAsync(t => t.Id == contractId, cancellationToken);
+            .SingleOrDefaultAsync(t => t.Id == contractId && t.OrgId == user.OrgId, cancellationToken);
 
         if (contract == null)
             throw new AccessDeniedException();
@@ -68,12 +56,8 @@ public class СontractorService(
     public async Task SaveContractAsync(Contract contract, CancellationToken cancellationToken) =>
         await contracts.UpdateAsync(contract, cancellationToken);
 
+    public async Task RemoveContractAsync(Contract contract, CancellationToken cancellationToken) =>
+        await contracts.RemoveAsync(contract, cancellationToken);
 
-    public async Task<int> GetContractDocumentGroupAsync(int contractId, CancellationToken cancellationToken = default)
-    {
-        return (await contracts.AsAsyncRead()
-            .SingleAsync(t => t.Id == contractId, cancellationToken))
-            .DocumentsGroup;
-    }
-
+    #endregion
 }

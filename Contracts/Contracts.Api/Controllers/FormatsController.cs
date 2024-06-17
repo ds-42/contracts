@@ -1,4 +1,5 @@
-﻿using Contracts.Application.Handlers.FormatHandler.Commands.CreateFormat;
+﻿using Contracts.Application.Handlers.ContractHandler.Commands.UpdateContract;
+using Contracts.Application.Handlers.FormatHandler.Commands.CreateFormat;
 using Contracts.Application.Handlers.FormatHandler.Commands.DeleteFormat;
 using Contracts.Application.Handlers.FormatHandler.Commands.UpdateFormat;
 using Contracts.Application.Handlers.FormatHandler.Queries.GetFormats;

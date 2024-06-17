@@ -5,7 +5,6 @@ namespace Contracts.Application.Handlers.ContractHandler.Commands.CreateContract
 
 public class CreateContractCommand : IRequest<ContractDto>
 {
-    public int OrgId { get; set; }
     public string Number { get; set; } = default!;
     public DateOnly RegistryDate { get; set; }
     public DateOnly StartDate { get; set; }

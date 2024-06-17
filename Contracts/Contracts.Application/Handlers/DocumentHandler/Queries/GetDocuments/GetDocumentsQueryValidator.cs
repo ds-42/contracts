@@ -1,9 +1,6 @@
-﻿using Contracts.Application.Handlers.FormatHandler;
-using Contracts.Application.Handlers.FormatHandler.Queries.GetFormats;
+﻿namespace Contracts.Application.Handlers.DocumentHandler.Queries.GetDocuments;
 
-namespace Contracts.Application.Handlers.DocumentHandler.Queries.GetDocuments;
-
-public class GetDocumentsQueryValidator : FormatValidator<GetDocumentsQuery>
+public class GetDocumentsQueryValidator : DocumentValidator<GetDocumentsQuery>
 {
     public GetDocumentsQueryValidator()
     {

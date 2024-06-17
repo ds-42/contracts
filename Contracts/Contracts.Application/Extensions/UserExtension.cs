@@ -11,12 +11,4 @@ public static class UserExtension
         return await users.AsAsyncRead()
             .SingleOrDefaultAsync(t => t.Id == Id, cancellationToken);
     }
-
-    public static async Task TestExists(this IBaseReadRepository<User> users, int Id, CancellationToken cancellationToken)
-    {
-        var rec = await FindItem(users, Id, cancellationToken);
-
-        if (rec == null)
-            throw new NotFoundException($"User with id={Id} not found");
-    }
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240604221033_Initial")]
+    [Migration("20240613223917_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -95,6 +95,9 @@ namespace Infrastructure.Persistence.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<int>("OrgId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("PlannedPrice")
                         .HasPrecision(18, 6)
                         .HasColumnType("decimal(18,6)");
@@ -102,8 +105,14 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<DateOnly>("RegistryDate")
                         .HasColumnType("date");
 
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
                     b.Property<DateOnly>("StartDate")
                         .HasColumnType("date");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -111,28 +120,9 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("FormatId");
 
+                    b.HasIndex("OrgId");
+
                     b.ToTable("Contracts");
-                });
-
-            modelBuilder.Entity("Contracts.Domain.ContractOrg", b =>
-                {
-                    b.Property<int>("OrgId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ContractId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrgId", "ContractId");
-
-                    b.HasIndex("ContractId");
-
-                    b.ToTable("ContractOrgs");
                 });
 
             modelBuilder.Entity("Contracts.Domain.Currency", b =>
@@ -347,9 +337,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int>("AddressGroup")
                         .HasColumnType("int");
 
-                    b.Property<int>("ContractsGroup")
-                        .HasColumnType("int");
-
                     b.Property<string>("EMail")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -506,26 +493,15 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Currency");
-
-                    b.Navigation("Format");
-                });
-
-            modelBuilder.Entity("Contracts.Domain.ContractOrg", b =>
-                {
-                    b.HasOne("Contracts.Domain.Contract", "Contract")
-                        .WithMany("Orgs")
-                        .HasForeignKey("ContractId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Contracts.Domain.Org", "Org")
-                        .WithMany("Contracts")
+                        .WithMany()
                         .HasForeignKey("OrgId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Contract");
+                    b.Navigation("Currency");
+
+                    b.Navigation("Format");
 
                     b.Navigation("Org");
                 });
@@ -611,15 +587,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Contracts.Domain.Contract", b =>
-                {
-                    b.Navigation("Orgs");
-                });
-
             modelBuilder.Entity("Contracts.Domain.Org", b =>
                 {
-                    b.Navigation("Contracts");
-
                     b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618

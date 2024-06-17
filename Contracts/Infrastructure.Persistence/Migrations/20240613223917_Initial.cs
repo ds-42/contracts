@@ -137,7 +137,6 @@ namespace Infrastructure.Persistence.Migrations
                     Phone = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     WWW = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     EMail = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    ContractsGroup = table.Column<int>(type: "int", nullable: false),
                     SertificateFileId = table.Column<int>(type: "int", nullable: false),
                     Verified = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -268,6 +267,7 @@ namespace Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    OrgId = table.Column<int>(type: "int", nullable: false),
                     Number = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     RegistryDate = table.Column<DateOnly>(type: "date", nullable: false),
                     StartDate = table.Column<DateOnly>(type: "date", nullable: false),
@@ -276,7 +276,9 @@ namespace Infrastructure.Persistence.Migrations
                     PlannedPrice = table.Column<decimal>(type: "decimal(18,6)", precision: 18, scale: 6, nullable: false),
                     CurrencyId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    DocumentsGroup = table.Column<int>(type: "int", nullable: false)
+                    DocumentsGroup = table.Column<int>(type: "int", nullable: false),
+                    Role = table.Column<int>(type: "int", nullable: false),
+                    State = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -293,38 +295,13 @@ namespace Infrastructure.Persistence.Migrations
                         principalTable: "Formats",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ContractOrgs",
-                columns: table => new
-                {
-                    OrgId = table.Column<int>(type: "int", nullable: false),
-                    ContractId = table.Column<int>(type: "int", nullable: false),
-                    Role = table.Column<int>(type: "int", nullable: false),
-                    State = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ContractOrgs", x => new { x.OrgId, x.ContractId });
                     table.ForeignKey(
-                        name: "FK_ContractOrgs_Contracts_ContractId",
-                        column: x => x.ContractId,
-                        principalTable: "Contracts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ContractOrgs_Orgs_OrgId",
+                        name: "FK_Contracts_Orgs_OrgId",
                         column: x => x.OrgId,
                         principalTable: "Orgs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContractOrgs_ContractId",
-                table: "ContractOrgs",
-                column: "ContractId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contracts_CurrencyId",
@@ -335,6 +312,11 @@ namespace Infrastructure.Persistence.Migrations
                 name: "IX_Contracts_FormatId",
                 table: "Contracts",
                 column: "FormatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contracts_OrgId",
+                table: "Contracts",
+                column: "OrgId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Documents_FileId",
@@ -391,7 +373,7 @@ namespace Infrastructure.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ContractOrgs");
+                name: "Contracts");
 
             migrationBuilder.DropTable(
                 name: "Documents");
@@ -406,19 +388,16 @@ namespace Infrastructure.Persistence.Migrations
                 name: "RefreshTokens");
 
             migrationBuilder.DropTable(
-                name: "Contracts");
+                name: "Currencies");
+
+            migrationBuilder.DropTable(
+                name: "Formats");
 
             migrationBuilder.DropTable(
                 name: "Files");
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Currencies");
-
-            migrationBuilder.DropTable(
-                name: "Formats");
 
             migrationBuilder.DropTable(
                 name: "FormatTypes");

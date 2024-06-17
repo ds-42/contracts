@@ -15,12 +15,11 @@ public class Org
     public string Phone { get; set; } = default!;
     public string WWW { get; set; } = default!;
     public string EMail { get; set; } = default!;
-    public int ContractsGroup { get; set; }
     public int SertificateFileId { get; set; }
     public bool Verified { get; set; }
 
     public IEnumerable<Employee> Employees { get; set; } = default!;
-    public IEnumerable<ContractOrg> Contracts { get; set; } = default!;
+//    public IEnumerable<Contract> Contracts { get; set; } = default!;
 
 //    public IEnumerable<OrgAdmin>? Admins { get; set; }
 

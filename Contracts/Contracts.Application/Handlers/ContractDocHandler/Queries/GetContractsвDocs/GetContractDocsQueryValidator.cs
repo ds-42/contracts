@@ -1,5 +1,4 @@
-﻿using Contracts.Application.Handlers.ContractHandler.Queries.GetContracts;
-using Contracts.Application.Handlers.EmployeeHandler;
+﻿using Contracts.Application.Handlers.EmployeeHandler;
 
 namespace Contracts.Application.Handlers.ContractDocHandler.Queries.GetContractsвDocs;
 

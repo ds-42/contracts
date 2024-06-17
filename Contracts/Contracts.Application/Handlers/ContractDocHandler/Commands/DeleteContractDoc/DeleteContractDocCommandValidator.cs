@@ -1,9 +1,5 @@
-﻿//namespace Contracts.Application.Handlers.FormatHandler.Commands.DeleteFormat;
+﻿using Contracts.Application.Handlers.DocumentHandler.Commands.DeleteDocument;
 
-//public class DeleteFormatCommandValidator : FormatValidator<DeleteFormatCommand>
-//{
-//    public DeleteFormatCommandValidator()
-//    {
-//        RuleForId(t => t.Id);
-//    }
-//}
+namespace Contracts.Application.Handlers.FormatHandler.Commands.DeleteFormat;
+
+public class DeleteContractDocCommandValidator : DeleteDocumentCommandValidator;

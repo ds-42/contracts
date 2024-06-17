@@ -1,10 +1,10 @@
-﻿using MediatR;
+﻿using Contracts.Application.Handlers.DocumentHandler.Commands.DeleteDocument;
+using MediatR;
 
 namespace Contracts.Application.Handlers.ContractDocHandler.Commands.DeleteContractDoc;
 
-public class DeleteContractDocCommand : IRequest<bool>
+public class DeleteContractDocCommand : DeleteDocumentCommand
 {
-    public int Id { get; set; }
 }
 
 
