@@ -14,7 +14,7 @@ public class CreateDocumentCommand : IRequest<DocumentDto>
     public Document Map() => new()
     {
         Id = 0,
-        GroupId = Group,
+        Group = Group,
         Number = Number,
         Title = Title,
         FileId = FileId,

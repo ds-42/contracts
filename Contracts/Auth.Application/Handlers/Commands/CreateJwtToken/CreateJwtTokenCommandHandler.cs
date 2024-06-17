@@ -19,7 +19,7 @@ internal class CreateJwtTokenCommandHandler : IRequestHandler<CreateJwtTokenComm
     private readonly IConfiguration _configuration;
 
     public CreateJwtTokenCommandHandler(
-        IBaseReadRepository<User> users, 
+        IBaseReadRepository<User> users,
         IBaseWriteRepository<RefreshToken> refreshTokens,
         ICreateJwtTokenService createJwtTokenService,
         IConfiguration configuration)
@@ -45,17 +45,18 @@ internal class CreateJwtTokenCommandHandler : IRequestHandler<CreateJwtTokenComm
 
         var jwtTokenDateExpires = DateTime.UtcNow.AddSeconds(int.Parse(_configuration["TokensLifeTime:JwtToken"]!));
         var refreshTokenDateExpires = DateTime.UtcNow.AddSeconds(int.Parse(_configuration["TokensLifeTime:RefreshToken"]!));
-        var token = _createJwtTokenService.CreateJwtToken(user, jwtTokenDateExpires);
+        var token = _createJwtTokenService.CreateJwtToken(request.OrgId, user, jwtTokenDateExpires);
         var refreshToken = await _refreshTokens.AddAsync(new RefreshToken 
         { 
             UserId = user.Id, 
+            OrgId = request.OrgId,
             Expired = refreshTokenDateExpires
         }, cancellationToken);
         
         return new JwtTokenDto
         {
             JwtToken = token,
-            RefreshToken = refreshToken.UserId.ToString(),
+            RefreshToken = refreshToken.RefreshTokenId.ToString(),
             Expires = jwtTokenDateExpires
         };
     }

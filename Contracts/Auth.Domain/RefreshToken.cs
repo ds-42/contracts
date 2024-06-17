@@ -8,6 +8,7 @@ public class RefreshToken
     
     public int UserId { get; set; }
     public User User { get; set; } = default!;
-    
+    public int OrgId { get; set; }
+
     public DateTime Expired { get; set; }
 }

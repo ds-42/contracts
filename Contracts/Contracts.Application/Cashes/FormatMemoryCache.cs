@@ -4,4 +4,4 @@ using Core.Application.DTOs;
 
 namespace Contracts.Application.Cashes;
 
-public class FormatMemoryCache : BaseCache<CountableList<FormatDto>>;
+public class FormatMemoryCache : BaseCache<CountableList<FormatExDto>>;

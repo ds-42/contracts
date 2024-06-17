@@ -4,7 +4,7 @@ public class GetDocumentsQueryValidator : DocumentValidator<GetDocumentsQuery>
 {
     public GetDocumentsQueryValidator()
     {
-        RuleForId(t => t.GroupId);
+        RuleForId(t => t.Group);
         RuleForPagination(t => t);
     }
 }

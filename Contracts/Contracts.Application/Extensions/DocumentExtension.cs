@@ -9,7 +9,7 @@ public static class DocumentExtension
     public static async Task<Document?> FindItem(this IBaseReadRepository<Document> documents, int group, int Id, CancellationToken cancellationToken)
     {
         return await documents.AsAsyncRead()
-            .SingleOrDefaultAsync(t => t.Id == Id && (group == 0 || t.GroupId == group), cancellationToken);
+            .SingleOrDefaultAsync(t => t.Id == Id && (group == 0 || t.Group == group), cancellationToken);
     }
 
     public static async Task<Document> GetItem(this IBaseReadRepository<Document> documents, int group, int Id, CancellationToken cancellationToken)

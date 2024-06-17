@@ -14,7 +14,7 @@ public class GetDocumentsQueryHandler(
 {
     protected override Expression<Func<Document, bool>>? Filter(GetDocumentsQuery query)
     {
-        return t => t.GroupId == query.GroupId;
+        return t => t.Group == query.Group;
     }
 
 }

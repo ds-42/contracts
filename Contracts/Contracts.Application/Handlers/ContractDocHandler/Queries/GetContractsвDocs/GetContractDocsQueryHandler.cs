@@ -25,7 +25,7 @@ public class GetContractDocsQueryHandler(
     {
         var contract = await contractor.GetContractAsync(query.ContractId, cancellationToken);
 
-        return t => t.GroupId == contract.DocumentsGroup;
+        return t => t.Group == contract.DocumentsGroup;
     }
 
     protected override Expression<Func<Document, object>> SortBy(GetContractDocsQuery query)

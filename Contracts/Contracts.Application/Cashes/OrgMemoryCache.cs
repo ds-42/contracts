@@ -4,4 +4,4 @@ using Core.Application.DTOs;
 
 namespace Contracts.Application.Cashes;
 
-public class OrgMemoryCache : BaseCache<CountableList<OrgDto>>;
+public class OrgMemoryCache : BaseCache<CountableList<OrgExDto>>;

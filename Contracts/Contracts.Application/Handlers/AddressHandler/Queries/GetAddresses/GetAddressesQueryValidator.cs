@@ -4,7 +4,7 @@ public class GetAddressesQueryValidator : AddressValidator<GetAddressesQuery>
 {
     public GetAddressesQueryValidator()
     {
-        RuleForId(t => t.GroupId);
+        RuleForId(t => t.Group);
         RuleForPagination(t => t);
     }
 }

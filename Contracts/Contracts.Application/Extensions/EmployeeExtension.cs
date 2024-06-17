@@ -12,6 +12,16 @@ public static class EmployeeExtension
             .SingleOrDefaultAsync(t => t.OrgId == orgId && t.UserId == userId, cancellationToken);
     }
 
+    public static async Task<Employee> GetItem(this IBaseReadRepository<Employee> employees, int OrgId, int Id, CancellationToken cancellationToken)
+    {
+        var rec = await FindItem(employees, OrgId, Id, cancellationToken);
+
+        if (rec == null)
+            throw new NotFoundException($"Employee with id={Id} not found");
+
+        return rec;
+    }
+
     public static async Task TestAccess(this IBaseReadRepository<Employee> source, int orgId, int userId, CancellationToken cancellationToken)
     {
         var rec = await FindItem(source, orgId, userId, cancellationToken);

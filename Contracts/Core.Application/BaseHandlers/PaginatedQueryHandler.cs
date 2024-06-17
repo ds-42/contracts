@@ -55,8 +55,12 @@ public abstract class PaginatedQueryHandler<TModel, TRequest, TResult> : BaseCac
         return new CountableList<TResult>()
         {
             Count = await _source.AsAsyncRead().CountAsync(filter, cancellationToken),
-            Items = _mapper.Map<IReadOnlyCollection<TResult>>(items),
+            Items = items.Select(t => MapRecord(t)).ToArray(),
         };
     }
 
+    protected virtual TResult MapRecord(TModel model) 
+    {
+        return _mapper.Map<TResult>(model);
+    }
 }

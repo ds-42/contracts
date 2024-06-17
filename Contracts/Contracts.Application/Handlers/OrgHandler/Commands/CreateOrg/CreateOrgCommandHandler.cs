@@ -2,34 +2,43 @@
 using Contracts.Application.Cashes;
 using Contracts.Domain;
 using Core.Application.Abstractions.Persistence.Repository.Writing;
+using Core.Application.Exceptions;
 using Core.Auth.Application.Abstractions.Service;
 using MediatR;
 
 namespace Contracts.Application.Handlers.OrgHandler.Commands.CreateOrg;
 
 public class CreateOrgCommandHandler(
-    IBaseWriteRepository<Org> _orgs,
-    IBaseWriteRepository<OrgAdmin> _admins,
-    ICurrentUserService _user,
-    OrgMemoryCache _cache,
-    IMapper _mapper) : IRequestHandler<CreateOrgCommand, OrgDto>
+    IBaseWriteRepository<Org> orgs,
+    IBaseWriteRepository<OrgAdmin> admins,
+    ICurrentUserService user,
+    OrgMemoryCache cache,
+    IMapper mapper) : IRequestHandler<CreateOrgCommand, OrgDto>
 {
     public async Task<OrgDto> Handle(CreateOrgCommand command, CancellationToken cancellationToken)
     {
-        var org = command.Map();
+        var org = await orgs.AsAsyncRead()
+            .SingleOrDefaultAsync(t => t.UNP == command.UNP, cancellationToken);
 
-        org = await _orgs.AddAsync(org, cancellationToken);
+        if (org != null) 
+        {
+            throw new CustomException("Duplicated org");
+        }
+
+        org = command.Map();
+
+        org = await orgs.AddAsync(org, cancellationToken);
 
         var admin = new OrgAdmin()
         {
             OrgId = org.Id,
-            UserId = _user.Id,
+            UserId = user.Id,
         };
 
-        await _admins.AddAsync(admin, cancellationToken);
+        await admins.AddAsync(admin, cancellationToken);
 
-        _cache.Clear();
+        cache.Clear();
 
-        return _mapper.Map<OrgDto>(org);
+        return mapper.Map<OrgDto>(org);
     }
 }

@@ -46,7 +46,7 @@ internal class CreateJwtTokenByRefreshTokenCommandHandler : IRequestHandler<Crea
         var jwtTokenDateExpires = DateTime.UtcNow.AddSeconds(int.Parse(_configuration["TokensLifeTime:JwtToken"]!));
         var refreshTokenDateExpires = DateTime.UtcNow.AddSeconds(int.Parse(_configuration["TokensLifeTime:RefreshToken"]!));
 
-        var jwtToken = _createJwtTokenService.CreateJwtToken(user, jwtTokenDateExpires);
+        var jwtToken = _createJwtTokenService.CreateJwtToken(refreshTokenFormDb.OrgId, user, jwtTokenDateExpires);
 
         refreshTokenFormDb.Expired = refreshTokenDateExpires;
         await _refreshTokens.UpdateAsync(refreshTokenFormDb, cancellationToken);

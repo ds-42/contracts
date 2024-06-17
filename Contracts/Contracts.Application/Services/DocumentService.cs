@@ -29,9 +29,9 @@ public class DocumentService(
 
         var doc = await documents.AddAsync(command.Map(), cancellationToken);
 
-        if (doc.GroupId == 0)
+        if (doc.Group == 0)
         {
-            doc.GroupId = doc.Id;
+            doc.Group = doc.Id;
             await documents.UpdateAsync(doc, cancellationToken);
             command.Group = doc.Id;
         }

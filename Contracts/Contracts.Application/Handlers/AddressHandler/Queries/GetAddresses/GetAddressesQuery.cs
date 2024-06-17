@@ -6,6 +6,6 @@ namespace Contracts.Application.Handlers.AddressHandler.Queries.GetAddresses;
 
 public class GetAddressesQuery : BasePagination, IRequest<CountableList<AddressDto>>
 {
-    public int GroupId { get; set; }
+    public int Group { get; set; }
 }
 

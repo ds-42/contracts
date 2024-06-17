@@ -17,7 +17,7 @@ namespace Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    GroupId = table.Column<int>(type: "int", nullable: false),
+                    Group = table.Column<int>(type: "int", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
                 },
                 constraints: table =>
@@ -104,7 +104,7 @@ namespace Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    GroupId = table.Column<int>(type: "int", nullable: false),
+                    Group = table.Column<int>(type: "int", nullable: false),
                     Number = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     RegistryDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
@@ -131,6 +131,8 @@ namespace Infrastructure.Persistence.Migrations
                     ShortName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     ViewName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     OwnershipId = table.Column<int>(type: "int", nullable: true),
+                    UNP = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OKPO = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AddressGroup = table.Column<int>(type: "int", nullable: false),
                     MailAddressId = table.Column<int>(type: "int", nullable: true),
                     JureAddressId = table.Column<int>(type: "int", nullable: true),
@@ -166,6 +168,7 @@ namespace Infrastructure.Persistence.Migrations
                 {
                     RefreshTokenId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
+                    OrgId = table.Column<int>(type: "int", nullable: false),
                     Expired = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

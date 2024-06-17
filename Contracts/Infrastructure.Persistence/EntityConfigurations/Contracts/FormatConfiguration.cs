@@ -12,6 +12,8 @@ public class FormatConfiguration : IEntityTypeConfiguration<Format>
 
         builder.Property(t => t.Name).HasMaxLength(200).IsRequired();
 
+        builder.Navigation(t => t.FormatType).AutoInclude();
+
         builder.HasOne(t => t.Org).WithMany().HasForeignKey(t => t.OrgId).OnDelete(DeleteBehavior.NoAction); 
         builder.HasOne(t => t.FormatType).WithMany().HasForeignKey(t => t.FormatTypeId);
     }

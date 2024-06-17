@@ -11,7 +11,7 @@ public class CreateAddressCommand : IRequest<AddressDto>
     public Address Map() => new()
     {
         Id = 0,
-        GroupId = Group,
+        Group = Group,
         Note = Note,
     };
 }

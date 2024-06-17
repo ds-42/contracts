@@ -25,7 +25,7 @@ public class GetOrgAddressesQueryHandler(
     {
         var org = await contractor.GetOrgAsync(cancellationToken);
 
-        return t => t.GroupId == org.AddressGroup;
+        return t => t.Group == org.AddressGroup;
     }
 
     protected override Expression<Func<Address, object>> SortBy(GetOrgAddressesQuery query)

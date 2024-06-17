@@ -4,5 +4,5 @@ using Core.Application.DTOs;
 
 namespace Contracts.Application.Cashes;
 
-public class ContractMemoryCache : BaseCache<CountableList<ContractDto>>;
+public class ContractMemoryCache : BaseCache<CountableList<ContractExDto>>;
 

@@ -15,3 +15,10 @@ public class ContractDto : IMapFrom<Contract>
     public int CurrencyId { get; set; }
     public string Description { get; set; } = default!;
 }
+
+public class ContractExDto : ContractDto 
+{
+    public string FormatName { get; set; } = default!;
+    public string CurrencyName { get; set; } = default!;
+    public string CurrencyShortName { get; set; } = default!;
+}

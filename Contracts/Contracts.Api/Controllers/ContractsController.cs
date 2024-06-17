@@ -6,8 +6,6 @@ using Contracts.Application.Handlers.ContractHandler.Commands.CreateContract;
 using Contracts.Application.Handlers.ContractHandler.Commands.DeleteContract;
 using Contracts.Application.Handlers.ContractHandler.Commands.UpdateContract;
 using Contracts.Application.Handlers.ContractHandler.Queries.GetContracts;
-using Contracts.Application.Handlers.FormatHandler.Commands.DeleteFormat;
-using Contracts.Application.Handlers.FormatTypeHandler.Commands.UpdateFormatType;
 using Core.Api.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

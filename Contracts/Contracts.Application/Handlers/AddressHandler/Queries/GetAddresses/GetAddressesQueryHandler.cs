@@ -14,7 +14,7 @@ public class GetAddressesQueryHandler(
 {
     protected override Expression<Func<Address, bool>>? Filter(GetAddressesQuery query)
     {
-        return t => t.GroupId == query.GroupId;
+        return t => t.Group == query.Group;
     }
 
 }

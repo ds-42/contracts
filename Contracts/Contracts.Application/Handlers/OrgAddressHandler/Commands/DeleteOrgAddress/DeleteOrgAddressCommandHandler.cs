@@ -1,12 +1,4 @@
-﻿using Contracts.Application.Cashes;
-using Contracts.Application.Extensions;
-using Contracts.Application.Handlers.ContractDocHandler.Commands.DeleteContractDoc;
-using Contracts.Application.Handlers.DocumentHandler.Commands.DeleteDocument;
-using Contracts.Application.Handlers.FormatHandler.Commands.DeleteFormat;
-using Contracts.Application.Services;
-using Contracts.Domain;
-using Core.Application.Abstractions.Persistence.Repository.Writing;
-using Core.Auth.Application.Abstractions.Service;
+﻿using Contracts.Application.Services;
 using MediatR;
 
 namespace Contracts.Application.Handlers.OrgAddressHandler.Commands.DeleteOrgAddress;

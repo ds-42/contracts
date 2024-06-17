@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240613223917_Initial")]
+    [Migration("20240617130907_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -34,6 +34,9 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("Expired")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("OrgId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -52,7 +55,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("GroupId")
+                    b.Property<int>("Group")
                         .HasColumnType("int");
 
                     b.Property<string>("Note")
@@ -164,7 +167,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int>("FileId")
                         .HasColumnType("int");
 
-                    b.Property<int>("GroupId")
+                    b.Property<int>("Group")
                         .HasColumnType("int");
 
                     b.Property<string>("Number")
@@ -353,6 +356,10 @@ namespace Infrastructure.Persistence.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
+                    b.Property<string>("OKPO")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("OwnershipId")
                         .HasColumnType("int");
 
@@ -368,6 +375,10 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("UNP")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Verified")
                         .HasColumnType("bit");

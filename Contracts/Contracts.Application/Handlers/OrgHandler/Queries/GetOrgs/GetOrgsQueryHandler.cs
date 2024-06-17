@@ -3,14 +3,53 @@ using Contracts.Application.Cashes;
 using Contracts.Domain;
 using Core.Application.Abstractions.Persistence.Repository.Read;
 using Core.Application.BaseHandlers;
+using Core.Auth.Application.Abstractions.Service;
+using System.Linq.Expressions;
 
 namespace Contracts.Application.Handlers.OrgHandler.Queries.GetOrgs;
 
-public class OrgsGetHandler : PaginatedQueryHandler<Org, GetOrgsQuery, OrgDto>
-{
-    public OrgsGetHandler(
+public class OrgsGetHandler(
         IBaseReadRepository<Org> orgs,
-        //        ICurrentUserService _user,
+        IBaseReadRepository<Employee> employees,
+        ICurrentUserService user,
         OrgMemoryCache cache,
-        IMapper mapper) : base(orgs, mapper, cache) { }
+        IMapper mapper) : PaginatedQueryHandler<Org, GetOrgsQuery, OrgExDto>(orgs, mapper, cache)
+{
+    protected override async Task<Expression<Func<Org, bool>>?> FilterAsync(GetOrgsQuery query, CancellationToken cancellationToken)
+    {
+        List<int>? ids = null;
+
+        if (query.Me)
+        {
+/*            ids = (await employees.AsAsyncRead()
+                .ToArrayAsync(t => t.UserId == user.Id, cancellationToken))
+                .Select(t => t.OrgId);
+
+            ids = orgIds.ToList();*/
+        }
+
+        return t => ids == null || ids.Contains(t.Id);
+    }
+
+    protected override Expression<Func<Org, object>> SortBy(GetOrgsQuery query)
+    {
+        return t => t.ViewName;
+    }
+
+    protected override OrgExDto MapRecord(Org model)
+    {
+        var result = base.MapRecord(model);
+        if (model.OwnershipId > 0)
+        {
+            result.Ownership = model.Ownership?.Name ?? "";
+            result.FullName = $"{result.Ownership} \"{model.Name}\"";
+        }
+        else
+        {
+            result.Ownership = "";
+            result.FullName = model.Name;
+        }
+        return result;
+    }
+
 }

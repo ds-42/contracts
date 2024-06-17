@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts.Application.Cashes;
 using Contracts.Application.Extensions;
+using Contracts.Application.Handlers.DocumentHandler;
 using Contracts.Domain;
 using Core.Application.Abstractions.Persistence.Repository.Read;
 using Core.Application.BaseHandlers;
@@ -14,7 +15,7 @@ public class GetContractsQueryHandler(
         IBaseReadRepository<Employee> employees,
         ICurrentUserService user,
         ContractMemoryCache cache,
-        IMapper mapper) : PaginatedQueryHandler<Contract, GetContractsQuery, ContractDto>(contracts, mapper, cache)
+        IMapper mapper) : PaginatedQueryHandler<Contract, GetContractsQuery, ContractExDto>(contracts, mapper, cache)
 {
 
     protected override async Task TestDataAccessAsync(GetContractsQuery query, CancellationToken cancellationToken)
@@ -26,4 +27,14 @@ public class GetContractsQueryHandler(
     {
         return t => t.StartDate;
     }
+
+    protected override ContractExDto MapRecord(Contract model)
+    {
+        var result = base.MapRecord(model);
+        result.FormatName = model.Format.Name;
+        result.CurrencyName = model.Currency.Name;
+        result.CurrencyShortName = model.Currency.ShortName;
+        return result;
+    }
+
 }

@@ -6,12 +6,12 @@ using MediatR;
 
 namespace Contracts.Application.Handlers.OrgAddressHandler.Commands.CreateOrgAddress;
 
-public class CreateAddressCommandHandler(
+public class CreateOrgAddressCommandHandler(
     AddressService addresses,
     СontractorService contractor,
-    OrgMemoryCache cache) : IRequestHandler<CreateAddressCommand, AddressDto>
+    OrgMemoryCache cache) : IRequestHandler<CreateOrgAddressCommand, AddressDto>
 {
-    public async Task<AddressDto> Handle(CreateAddressCommand command, CancellationToken cancellationToken)
+    public async Task<AddressDto> Handle(CreateOrgAddressCommand command, CancellationToken cancellationToken)
     {
         await contractor.TestAccess(cancellationToken);
 

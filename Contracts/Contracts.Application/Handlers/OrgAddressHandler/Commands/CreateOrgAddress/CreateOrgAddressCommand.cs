@@ -4,4 +4,3 @@ namespace Contracts.Application.Handlers.OrgAddressHandler.Commands.CreateOrgAdd
 
 public class CreateOrgAddressCommand : CreateAddressCommand;
 
-
