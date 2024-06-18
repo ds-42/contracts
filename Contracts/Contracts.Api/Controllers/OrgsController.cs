@@ -2,9 +2,12 @@
 using Contracts.Application.Handlers.OrgAddressHandler.Commands.CreateOrgAddress;
 using Contracts.Application.Handlers.OrgAddressHandler.Commands.DeleteOrgAddress;
 using Contracts.Application.Handlers.OrgAddressHandler.Queries.GetOrgAddresses;
+using Contracts.Application.Handlers.OrgHandler.Commands.AppendOrgAdmin;
 using Contracts.Application.Handlers.OrgHandler.Commands.CreateOrg;
 using Contracts.Application.Handlers.OrgHandler.Commands.DeleteOrg;
+using Contracts.Application.Handlers.OrgHandler.Commands.DeleteOrgAdmin;
 using Contracts.Application.Handlers.OrgHandler.Commands.UpdateOrg;
+using Contracts.Application.Handlers.OrgHandler.Commands.VerifyOrg;
 using Contracts.Application.Handlers.OrgHandler.Queries.GetOrgs;
 using Core.Api.Controllers;
 using MediatR;
@@ -54,6 +57,42 @@ public class OrgsController(IMediator mediator)
         CancellationToken cancellationToken = default)
     {
         var command = new DeleteOrgCommand() { Id = id };
+        await ExecQueryAsync(command, cancellationToken);
+
+        return Ok();
+    }
+
+    #endregion
+
+    #region Admins
+
+    [HttpPost("Verify")]
+    public async Task<IActionResult> VerifyOrg(
+        VerifyOrgCommand command,
+        CancellationToken cancellationToken = default)
+    {
+        await ExecQueryAsync(command, cancellationToken);
+
+        return Ok();
+    }
+
+    [HttpPost("Admins/{userId}")]
+    public async Task<IActionResult> AppendOrgAdmin(
+        int userId,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new AppendOrgAdminCommand() { UserId = userId };
+        await ExecQueryAsync(command, cancellationToken);
+
+        return Ok();
+    }
+
+    [HttpDelete("Admins/{userId}")]
+    public async Task<IActionResult> DeleteOrgAdmin(
+        int userId,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new DeleteOrgAdminCommand() { UserId = userId };
         await ExecQueryAsync(command, cancellationToken);
 
         return Ok();

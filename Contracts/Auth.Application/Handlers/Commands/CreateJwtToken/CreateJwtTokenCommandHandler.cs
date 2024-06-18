@@ -43,13 +43,15 @@ internal class CreateJwtTokenCommandHandler : IRequestHandler<CreateJwtTokenComm
             throw new ForbiddenException();
         }
 
+        var OrgId = request.OrgId ?? 0;
+
         var jwtTokenDateExpires = DateTime.UtcNow.AddSeconds(int.Parse(_configuration["TokensLifeTime:JwtToken"]!));
         var refreshTokenDateExpires = DateTime.UtcNow.AddSeconds(int.Parse(_configuration["TokensLifeTime:RefreshToken"]!));
-        var token = _createJwtTokenService.CreateJwtToken(request.OrgId, user, jwtTokenDateExpires);
+        var token = _createJwtTokenService.CreateJwtToken(OrgId, user, jwtTokenDateExpires);
         var refreshToken = await _refreshTokens.AddAsync(new RefreshToken 
         { 
             UserId = user.Id, 
-            OrgId = request.OrgId,
+            OrgId = OrgId,
             Expired = refreshTokenDateExpires
         }, cancellationToken);
         

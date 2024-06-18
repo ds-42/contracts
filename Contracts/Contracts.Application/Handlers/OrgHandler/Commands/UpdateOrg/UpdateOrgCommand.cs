@@ -11,6 +11,8 @@ public class UpdateOrgCommand : IMapTo<Org>, IRequest<OrgDto>
     public string ShortName { get; set; } = default!;
     public string ViewName { get; set; } = default!;
     public int? OwnershipId { get; set; }
+    public string UNP { get; set; } = default!;
+    public string OKPO { get; set; } = default!;
     public int? MailAddressId { get; set; }
     public int? JureAddressId { get; set; }
 }

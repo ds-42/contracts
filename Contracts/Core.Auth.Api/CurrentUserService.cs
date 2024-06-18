@@ -28,7 +28,7 @@ public class CurrentUserService : ICurrentUserService
     {
         get
         {
-            return 1;
+//            return 1;
             var val = _httpContextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
             return int.Parse(val);
         }
@@ -38,7 +38,7 @@ public class CurrentUserService : ICurrentUserService
     {
         get
         {
-            return 1;
+//            return 1;
             var val = _httpContextAccessor.HttpContext!.User.FindFirst(ClaimTypes.UserData)!.Value;
             return int.Parse(val);
         }

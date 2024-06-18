@@ -36,7 +36,7 @@ internal class CreateJwtTokenByRefreshTokenCommandHandler : IRequestHandler<Crea
     {
         var refreshTokenGuid = Guid.Parse(request.RefreshToken);
         var refreshTokenFormDb = await _refreshTokens.AsAsyncRead().SingleOrDefaultAsync(e => e.RefreshTokenId == refreshTokenGuid, cancellationToken);
-        if (refreshTokenFormDb is null || refreshTokenFormDb.Expired > DateTime.UtcNow)
+        if (refreshTokenFormDb is null || DateTime.UtcNow > refreshTokenFormDb.Expired)
         {
             throw new ForbiddenException();
         }
@@ -46,7 +46,9 @@ internal class CreateJwtTokenByRefreshTokenCommandHandler : IRequestHandler<Crea
         var jwtTokenDateExpires = DateTime.UtcNow.AddSeconds(int.Parse(_configuration["TokensLifeTime:JwtToken"]!));
         var refreshTokenDateExpires = DateTime.UtcNow.AddSeconds(int.Parse(_configuration["TokensLifeTime:RefreshToken"]!));
 
-        var jwtToken = _createJwtTokenService.CreateJwtToken(refreshTokenFormDb.OrgId, user, jwtTokenDateExpires);
+        var orgId = request.OrgId ?? refreshTokenFormDb.OrgId;
+
+        var jwtToken = _createJwtTokenService.CreateJwtToken(orgId, user, jwtTokenDateExpires);
 
         refreshTokenFormDb.Expired = refreshTokenDateExpires;
         await _refreshTokens.UpdateAsync(refreshTokenFormDb, cancellationToken);

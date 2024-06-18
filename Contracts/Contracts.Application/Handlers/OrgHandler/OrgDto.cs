@@ -12,6 +12,7 @@ public class OrgDto : IMapFrom<Org>
     public int OwnershipId { get; set; } = default!;
     public string UNP { get; set; } = default!;
     public string OKPO { get; set; } = default!;
+    public bool Verified { get; set; } = default!;
 }
 
 public class OrgExDto : OrgDto 

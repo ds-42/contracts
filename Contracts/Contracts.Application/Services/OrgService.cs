@@ -10,6 +10,7 @@ using Core.Application.Abstractions.Persistence.Repository.Writing;
 using Core.Auth.Application.Abstractions.Service;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Threading;
+using Contracts.Application.Handlers.OrgHandler.Commands.AppendOrgAdmin;
 
 namespace Contracts.Application.Services;
 
@@ -59,6 +60,12 @@ public class OrgService(
         await admins.TestAccess(command.Id, user.Id, cancellationToken);
 
         var org = await orgs.GetItem(command.Id, cancellationToken);
+
+        if (org.Verified)
+        {
+            command.UNP = org.UNP;
+            command.OKPO = org.OKPO;
+        }
 
         await ValidateAddress(org.AddressGroup, command.JureAddressId, cancellationToken);
         await ValidateAddress(org.AddressGroup, command.MailAddressId, cancellationToken);

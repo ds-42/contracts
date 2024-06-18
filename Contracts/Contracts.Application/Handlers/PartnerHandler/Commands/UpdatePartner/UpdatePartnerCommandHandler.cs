@@ -11,16 +11,18 @@ namespace Contracts.Application.Handlers.PartnerHandler.Commands.UpdatePartner;
 public class UpdatePartnerCommandHandler(
     OrgService orgs,
     IBaseWriteRepository<Partner> partners, 
-    ICurrentUserService user) : IRequestHandler<UpdateOrgCommand, OrgDto>
+    ICurrentUserService user) : IRequestHandler<UpdatePartnerCommand, OrgDto>
 {
-    public async Task<OrgDto> Handle(UpdateOrgCommand command, CancellationToken cancellationToken)
+    public async Task<OrgDto> Handle(UpdatePartnerCommand command, CancellationToken cancellationToken)
     {
         var partner = await partners.AsAsyncRead()
             .SingleAsync(t => t.OrgId == user.OrgId && t.PartnerId == command.Id, cancellationToken);
+
         partner.ViewName = command.ViewName;
+
         await partners.UpdateAsync(partner, cancellationToken);
 
-        if (await orgs.HaveAdmins(command.Id, cancellationToken)) 
+        if (await orgs.HaveAdmins(command.Id, cancellationToken) == false) 
         {
             return await orgs.UpdateOrg(command, cancellationToken);
         }

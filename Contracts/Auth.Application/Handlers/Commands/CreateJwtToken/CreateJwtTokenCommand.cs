@@ -9,5 +9,5 @@ public class CreateJwtTokenCommand : IRequest<JwtTokenDto>
 
     public string Password { get; init; } = default!;
 
-    public int OrgId { get; init; }
+    public int? OrgId { get; init; }
 }

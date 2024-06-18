@@ -68,4 +68,5 @@ public class BaseRepository<TEntity> : IBaseWriteRepository<TEntity> where TEnti
     {
         return new AsyncRead<TEntity>(DbSet.AsQueryable());
     }
+
 }
