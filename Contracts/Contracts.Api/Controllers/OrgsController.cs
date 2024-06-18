@@ -18,7 +18,7 @@ public class OrgsController(IMediator mediator)
     #region Orgs
 
     [HttpGet]
-    public async Task<IActionResult> GetContracts(
+    public async Task<IActionResult> GetOrgs(
         [FromQuery] GetOrgsQuery query, CancellationToken cancellationToken = default)
     {
         var data = await ExecQueryAsync(query, cancellationToken);

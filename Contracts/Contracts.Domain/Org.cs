@@ -19,9 +19,6 @@ public class Org
     public bool Verified { get; set; }
 
     public IEnumerable<Employee> Employees { get; set; } = default!;
-//    public IEnumerable<Contract> Contracts { get; set; } = default!;
-
-//    public IEnumerable<OrgAdmin>? Admins { get; set; }
 
     public Ownership? Ownership { get; set; }
 

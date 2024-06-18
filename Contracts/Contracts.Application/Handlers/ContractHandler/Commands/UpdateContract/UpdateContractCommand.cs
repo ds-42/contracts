@@ -1,4 +1,5 @@
 ﻿using Contracts.Domain;
+using Contracts.Domain.Enums;
 using Core.Application.Abstractions.Mappings;
 using MediatR;
 
@@ -15,6 +16,8 @@ public class UpdateContractCommand : IMapTo<Contract>, IRequest<ContractDto>
     public decimal PlannedPrice { get; set; }
     public int CurrencyId { get; set; }
     public string Description { get; set; } = default!;
+    public ContractRole Role { get; set; }
+    public ContractState State { get; set; }
 }
 
 

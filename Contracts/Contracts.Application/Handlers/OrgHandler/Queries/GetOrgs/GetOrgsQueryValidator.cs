@@ -2,9 +2,9 @@
 
 namespace Contracts.Application.Handlers.OrgHandler.Queries.GetOrgs;
 
-public class OrgsGetValidator : OrgValidator<GetOrgsQuery>
+public class GetOrgsValidator : OrgValidator<GetOrgsQuery>
 {
-    public OrgsGetValidator()
+    public GetOrgsValidator()
     {
         RuleForPagination(t => t);
     }

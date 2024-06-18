@@ -98,6 +98,9 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int>("OrgId")
                         .HasColumnType("int");
 
+                    b.Property<int>("PartnerId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("PlannedPrice")
                         .HasPrecision(18, 6)
                         .HasColumnType("decimal(18,6)");
@@ -121,6 +124,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasIndex("FormatId");
 
                     b.HasIndex("OrgId");
+
+                    b.HasIndex("PartnerId");
 
                     b.ToTable("Contracts");
                 });
@@ -450,6 +455,34 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("Ownerships");
                 });
 
+            modelBuilder.Entity("Contracts.Domain.Partner", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("OrgId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PartnerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ViewName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrgId");
+
+                    b.HasIndex("PartnerId");
+
+                    b.ToTable("Partners");
+                });
+
             modelBuilder.Entity("Core.Users.Domain.User", b =>
                 {
                     b.Property<int>("Id")
@@ -504,7 +537,13 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasOne("Contracts.Domain.Org", "Org")
                         .WithMany()
                         .HasForeignKey("OrgId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Contracts.Domain.Org", "Partner")
+                        .WithMany()
+                        .HasForeignKey("PartnerId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Currency");
@@ -512,6 +551,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("Format");
 
                     b.Navigation("Org");
+
+                    b.Navigation("Partner");
                 });
 
             modelBuilder.Entity("Contracts.Domain.Document", b =>
@@ -593,6 +634,25 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("Org");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Contracts.Domain.Partner", b =>
+                {
+                    b.HasOne("Contracts.Domain.Org", "Org")
+                        .WithMany()
+                        .HasForeignKey("OrgId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Contracts.Domain.Org", "PartnerOrg")
+                        .WithMany()
+                        .HasForeignKey("PartnerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Org");
+
+                    b.Navigation("PartnerOrg");
                 });
 
             modelBuilder.Entity("Contracts.Domain.Org", b =>

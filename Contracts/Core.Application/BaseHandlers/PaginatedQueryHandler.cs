@@ -14,7 +14,7 @@ public abstract class PaginatedQueryHandler<TModel, TRequest, TResult> : BaseCac
     where TResult : class, new()
 {
     protected IBaseReadRepository<TModel> _source;
-    protected IMapper _mapper;
+    protected IMapper mapper;
 
     public PaginatedQueryHandler(
         IBaseReadRepository<TModel> source, 
@@ -22,7 +22,7 @@ public abstract class PaginatedQueryHandler<TModel, TRequest, TResult> : BaseCac
         IBaseCache<CountableList<TResult>> cache) : base(cache)
     {
         _source = source;
-        _mapper = mapper;
+        this.mapper = mapper;
     }
 
     protected virtual async Task<Expression<Func<TModel, bool>>?> FilterAsync(TRequest query, CancellationToken cancellationToken)
@@ -61,6 +61,6 @@ public abstract class PaginatedQueryHandler<TModel, TRequest, TResult> : BaseCac
 
     protected virtual TResult MapRecord(TModel model) 
     {
-        return _mapper.Map<TResult>(model);
+        return mapper.Map<TResult>(model);
     }
 }

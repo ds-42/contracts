@@ -20,10 +20,12 @@ public static class DependencyInjection
             .AddSingleton<FormatTypeMemoryCache>()
             .AddSingleton<OrgMemoryCache>()
             .AddSingleton<OwnershipMemoryCache>()
+            .AddSingleton<PartnerMemoryCache>()
 
             .AddTransient<AddressService>()
             .AddTransient<СontractorService>()
             .AddTransient<DocumentService>()
+            .AddTransient<OrgService>()
 
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()))
             .AddAutoMapper(Assembly.GetExecutingAssembly())

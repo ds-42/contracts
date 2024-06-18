@@ -21,6 +21,10 @@ public class OrgsGetHandler(
 
         if (query.Me)
         {
+            var rgn = new[] { 1, 2, 3 };
+            var recs = employees.AsQueryable()
+                .Where(t => rgn.Contains(t.Id))
+                .ToArray();
 /*            ids = (await employees.AsAsyncRead()
                 .ToArrayAsync(t => t.UserId == user.Id, cancellationToken))
                 .Select(t => t.OrgId);

@@ -20,7 +20,7 @@ public class ContractConfiguration : IEntityTypeConfiguration<Contract>
 
         builder.HasOne(t => t.Currency).WithMany().HasForeignKey(t => t.CurrencyId);
         builder.HasOne(t => t.Format).WithMany().HasForeignKey(t => t.FormatId);
-        builder.HasOne(t => t.Org).WithMany().HasForeignKey(t => t.OrgId);
-
+        builder.HasOne(t => t.Org).WithMany().HasForeignKey(t => t.OrgId).OnDelete(DeleteBehavior.NoAction); 
+        builder.HasOne(t => t.Partner).WithMany().HasForeignKey(t => t.PartnerId).OnDelete(DeleteBehavior.NoAction); 
     }
 }

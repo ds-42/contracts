@@ -265,12 +265,38 @@ namespace Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Partners",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrgId = table.Column<int>(type: "int", nullable: false),
+                    PartnerId = table.Column<int>(type: "int", nullable: false),
+                    ViewName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Partners", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Partners_Orgs_OrgId",
+                        column: x => x.OrgId,
+                        principalTable: "Orgs",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Partners_Orgs_PartnerId",
+                        column: x => x.PartnerId,
+                        principalTable: "Orgs",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Contracts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrgId = table.Column<int>(type: "int", nullable: false),
+                    PartnerId = table.Column<int>(type: "int", nullable: false),
                     Number = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     RegistryDate = table.Column<DateOnly>(type: "date", nullable: false),
                     StartDate = table.Column<DateOnly>(type: "date", nullable: false),
@@ -302,8 +328,12 @@ namespace Infrastructure.Persistence.Migrations
                         name: "FK_Contracts_Orgs_OrgId",
                         column: x => x.OrgId,
                         principalTable: "Orgs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Contracts_Orgs_PartnerId",
+                        column: x => x.PartnerId,
+                        principalTable: "Orgs",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -320,6 +350,11 @@ namespace Infrastructure.Persistence.Migrations
                 name: "IX_Contracts_OrgId",
                 table: "Contracts",
                 column: "OrgId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contracts_PartnerId",
+                table: "Contracts",
+                column: "PartnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Documents_FileId",
@@ -367,6 +402,16 @@ namespace Infrastructure.Persistence.Migrations
                 column: "OwnershipId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Partners_OrgId",
+                table: "Partners",
+                column: "OrgId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Partners_PartnerId",
+                table: "Partners",
+                column: "PartnerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_UserId",
                 table: "RefreshTokens",
                 column: "UserId");
@@ -386,6 +431,9 @@ namespace Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "OrgAdmins");
+
+            migrationBuilder.DropTable(
+                name: "Partners");
 
             migrationBuilder.DropTable(
                 name: "RefreshTokens");

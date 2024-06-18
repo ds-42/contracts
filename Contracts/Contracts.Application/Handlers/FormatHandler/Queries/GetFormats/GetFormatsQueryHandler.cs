@@ -3,7 +3,6 @@ using Contracts.Application.Cashes;
 using Contracts.Domain;
 using Core.Application.Abstractions.Persistence.Repository.Read;
 using Core.Application.BaseHandlers;
-using MediatR;
 using System.Linq.Expressions;
 
 namespace Contracts.Application.Handlers.FormatHandler.Queries.GetFormats;

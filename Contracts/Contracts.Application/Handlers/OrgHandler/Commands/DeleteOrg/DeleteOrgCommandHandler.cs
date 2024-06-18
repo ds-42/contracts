@@ -1,6 +1,5 @@
 ﻿using Contracts.Application.Cashes;
 using Contracts.Application.Extensions;
-using Contracts.Application.Handlers.FormatTypeHandler.Commands.DeleteFormatType;
 using Contracts.Domain;
 using Core.Application.Abstractions.Persistence.Repository.Read;
 using Core.Application.Abstractions.Persistence.Repository.Writing;
@@ -15,17 +14,16 @@ public class DeleteOrgCommandHandler(
     IBaseReadRepository<OrgAdmin> admins,
     IBaseReadRepository<Contract> contracts,
     ICurrentUserService user,
-    OrgMemoryCache cache) : IRequestHandler<DeleteFormatTypeCommand, bool>
+    OrgMemoryCache cache) : IRequestHandler<DeleteOrgCommand, bool>
 {
-    public async Task<bool> Handle(DeleteFormatTypeCommand command, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteOrgCommand command, CancellationToken cancellationToken)
     {
         await admins.TestAccess(command.Id, user.Id, cancellationToken);
 
-        if (await contracts.UsedOrg(command.Id, cancellationToken)) 
+        if (await contracts.UsedOrg(command.Id, cancellationToken))
         {
             throw new UsedAnotherTableException();
         }
-
 
         var org = await orgs.GetItem(command.Id, cancellationToken);
 

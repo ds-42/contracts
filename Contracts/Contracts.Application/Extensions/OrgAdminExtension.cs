@@ -18,6 +18,14 @@ public static class OrgAdminExtension
             .SingleOrDefaultAsync(t => t.OrgId == orgId && t.UserId == userId, cancellationToken);
 
         if (rec == null)
-            throw new AccessDeniedException();
+        {
+            var exist = await source.AsAsyncRead()
+                .AnyAsync(t => t.OrgId == orgId, cancellationToken);
+
+            if (exist) 
+            {
+                throw new AccessDeniedException();
+            }
+        }
     }
 }
