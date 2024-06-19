@@ -17,19 +17,15 @@ public class OrgsGetHandler(
 {
     protected override async Task<Expression<Func<Org, bool>>?> FilterAsync(GetOrgsQuery query, CancellationToken cancellationToken)
     {
-        List<int>? ids = null;
+        HashSet<int>? ids = null;
 
         if (query.Me)
         {
-            var rgn = new[] { 1, 2, 3 };
-            var recs = employees.AsQueryable()
-                .Where(t => rgn.Contains(t.Id))
-                .ToArray();
-/*            ids = (await employees.AsAsyncRead()
+            var orgs = (await employees.AsAsyncRead()
                 .ToArrayAsync(t => t.UserId == user.Id, cancellationToken))
-                .Select(t => t.OrgId);
+                .Select(t => t.OrgId).ToArray();
 
-            ids = orgIds.ToList();*/
+            ids = new HashSet<int>(orgs);
         }
 
         return t => ids == null || ids.Contains(t.Id);
