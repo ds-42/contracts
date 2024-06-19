@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Contracts.Application.Cashes;
 using Contracts.Application.Extensions;
-using Contracts.Application.Handlers.DocumentHandler;
 using Contracts.Domain;
 using Core.Application.Abstractions.Persistence.Repository.Read;
 using Core.Application.BaseHandlers;
 using Core.Auth.Application.Abstractions.Service;
+using MediatR;
 using System.Linq.Expressions;
 
 namespace Contracts.Application.Handlers.ContractHandler.Queries.GetContracts;
@@ -20,7 +20,12 @@ public class GetContractsQueryHandler(
 
     protected override async Task TestDataAccessAsync(GetContractsQuery query, CancellationToken cancellationToken)
     {
-        await employees.TestAccess(query.OrgId, user.Id, cancellationToken);
+        await employees.TestAccess(user.OrgId, user.Id, cancellationToken);
+    }
+
+    protected override Expression<Func<Contract, bool>>? Filter(GetContractsQuery query)
+    {
+        return t => t.OrgId == user.OrgId && (query.PartnerId == null || t.PartnerId == query.PartnerId);
     }
 
     protected override Expression<Func<Contract, object>> SortBy(GetContractsQuery query)

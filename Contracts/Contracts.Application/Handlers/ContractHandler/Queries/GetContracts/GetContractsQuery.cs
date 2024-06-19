@@ -6,7 +6,7 @@ namespace Contracts.Application.Handlers.ContractHandler.Queries.GetContracts;
 
 public class GetContractsQuery : BasePagination, IRequest<CountableList<ContractExDto>>
 {
-    public int OrgId { get; set; }
+    public int? PartnerId { get; set; }
 }
 
 

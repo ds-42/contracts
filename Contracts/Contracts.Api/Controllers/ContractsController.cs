@@ -1,14 +1,17 @@
 ﻿using Contracts.Application.Handlers.ContractDocHandler.Commands.CreateContractDoc;
 using Contracts.Application.Handlers.ContractDocHandler.Commands.DeleteContractDoc;
+using Contracts.Application.Handlers.ContractDocHandler.Commands.DownloadContractDoc;
 using Contracts.Application.Handlers.ContractDocHandler.Commands.UpdateContractDoc;
 using Contracts.Application.Handlers.ContractDocHandler.Queries.GetContractsвDocs;
 using Contracts.Application.Handlers.ContractHandler.Commands.CreateContract;
 using Contracts.Application.Handlers.ContractHandler.Commands.DeleteContract;
 using Contracts.Application.Handlers.ContractHandler.Commands.UpdateContract;
 using Contracts.Application.Handlers.ContractHandler.Queries.GetContracts;
+using Contracts.Application.Services;
 using Core.Api.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
 
 namespace Contracts.Api.Controllers;
 
@@ -98,14 +101,28 @@ public class ContractsController : AuthController
     }
 
     [HttpDelete("Docs/{id}")]
-    public async Task<IActionResult> DeleteDocument(
-        int id,
-        CancellationToken cancellationToken = default)
+    public async Task<IActionResult> DeleteDocument(int id, CancellationToken cancellationToken = default)
     {
         var command = new DeleteContractDocCommand() { Id = id };
         await ExecQueryAsync(command, cancellationToken);
 
         return Ok();
+    }
+
+    [HttpGet("Docs/Download/{id}")]
+    public async Task<IActionResult> DownloadFile(int id, CancellationToken cancellationToken = default)
+    {
+        var command = new DownloadContractDocCommand() { Id = id };
+
+        DocumentInfo docInfo = await ExecQueryAsync(command, cancellationToken);
+
+        if (!System.IO.File.Exists(docInfo.FilePath))
+        {
+            return NotFound();
+        }
+
+        var fileStream = new FileStream(docInfo.FilePath, FileMode.Open);
+        return File(fileStream, "application/octet-stream", docInfo.FileName);
     }
 
     #endregion

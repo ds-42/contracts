@@ -4,7 +4,6 @@ public class GetFormatsQueryValidator : FormatValidator<GetFormatsQuery>
 {
     public GetFormatsQueryValidator()
     {
-        RuleForId(t => t.OrgId);
         RuleForPagination(t => t);
     }
 }

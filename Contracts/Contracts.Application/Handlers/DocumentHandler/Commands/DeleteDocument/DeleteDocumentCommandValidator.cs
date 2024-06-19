@@ -1,8 +1,6 @@
-﻿using Contracts.Application.Handlers.FormatHandler.Commands.DeleteFormat;
+﻿namespace Contracts.Application.Handlers.DocumentHandler.Commands.DeleteDocument;
 
-namespace Contracts.Application.Handlers.DocumentHandler.Commands.DeleteDocument;
-
-public class DeleteDocumentCommandValidator : DocumentValidator<DeleteFormatCommand>
+public class DeleteDocumentCommandValidator : DocumentValidator<DeleteDocumentCommand>
 {
     public DeleteDocumentCommandValidator()
     {

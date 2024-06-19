@@ -9,16 +9,30 @@ using Core.Application.Abstractions.Persistence.Repository.Read;
 using Core.Application.Abstractions.Persistence.Repository.Writing;
 using Core.Application.Exceptions;
 using Core.Auth.Application.Abstractions.Service;
+using Microsoft.Extensions.Configuration;
 
 namespace Contracts.Application.Services;
+
+public class DocumentInfo
+{
+    public string FilePath { get; set; } = default!;
+    public string FileName { get; set; } = default!;
+}
 
 public class DocumentService(
     IBaseWriteRepository<Domain.Document> documents,
     ICurrentUserService user,
     IBaseReadRepository<Domain.File> files,
+    IConfiguration configuration,
     DocumentMemoryCache cache,
     IMapper _mapper)
 {
+    public async Task<Domain.Document> GetDocumentAsync(int id, CancellationToken cancellationToken)
+    {
+        return await documents.AsAsyncRead()
+            .SingleAsync(t => t.Id == id, cancellationToken);
+    }
+
     public async Task<DocumentDto> CreateDocumentAsync(CreateDocumentCommand command, CancellationToken cancellationToken)
     {
         var file = await files.AsAsyncRead()
@@ -63,5 +77,22 @@ public class DocumentService(
         cache.Clear();
 
         return true;
+    }
+
+    public async Task<DocumentInfo> GetInfoAsync(Domain.Document doc, CancellationToken cancellationToken)
+    {
+        var file = await files.AsAsyncRead()
+            .SingleOrDefaultAsync(t => t.Id == doc.FileId, cancellationToken);
+
+        if (file == null)
+            throw new AccessDeniedException();
+
+        var sourcePath = configuration["Files"];
+
+        return new DocumentInfo()
+        {
+            FilePath = $"{sourcePath}{file.Id}",
+            FileName = file.FileName,
+        };
     }
 }

@@ -7,6 +7,5 @@ public class GetContractsQueryValidator : ContractValidator<GetContractsQuery>
     public GetContractsQueryValidator()
     {
         RuleForPagination(t => t);
-        RuleForId(t => t.OrgId);
     }
 }

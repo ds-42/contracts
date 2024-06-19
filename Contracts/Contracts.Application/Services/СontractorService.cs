@@ -53,6 +53,17 @@ public class СontractorService(
         return contract;
     }
 
+    public async Task<Contract> GetContractByDocGroupAsync(int group, CancellationToken cancellationToken)
+    {
+        var contract = await contracts.AsAsyncRead()
+            .SingleOrDefaultAsync(t => t.DocumentsGroup == group && t.OrgId == user.OrgId, cancellationToken);
+
+        if (contract == null)
+            throw new AccessDeniedException();
+
+        return contract;
+    }
+
     public async Task SaveContractAsync(Contract contract, CancellationToken cancellationToken) =>
         await contracts.UpdateAsync(contract, cancellationToken);
 
