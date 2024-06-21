@@ -17,11 +17,11 @@ services:
     #   timeout: 5s
     #   retries: 5
 
-  # redis:
-  #   container_name: redis
-  #   image: ${redis_image}
-  #   ports:
-  #     - "26379:6379"
+  redis:
+    container_name: redis
+    image: ${redis_image}
+    ports:
+      - "26379:6379"
     
   # migrator:
   #   container_name: users_db_migrator
@@ -69,21 +69,23 @@ services:
   #   networks:
   #     - cmis_network
 
-  # contracts_api:
-  #   container_name: ${contracts_name}_api
-  #   build:
-  #     context: ../contracts/
-  #     dockerfile: ./Contracts.Api/Dockerfile
-  #     args:
-  #       - dotnet_image_aspnet=${dotnet_image_aspnet}
-  #       - dotnet_image_sdk=${dotnet_image_sdk}
-  #   environment:
-  #     - ASPNETCORE_ENVIRONMENT=Production
-  #     - ConnectionStrings__DefaultConnection=${db_connection_string}
-  #     - AllowedHosts=*
-  #     - Jwt__Key=sdversdfregsgdsgfsdfwesdfsdfsdfsf
-  #     - Jwt__Issuer=GardenCommunity
-  #     - Jwt__Audience=GardenCommunity
-  #   depends_on:
-  #     contracts_db:
-  #       condition: service_healthy
+  contracts_api:
+    container_name: contracts_api
+    build:
+      context: ../contracts/
+      dockerfile: ./Contracts.Api/Dockerfile
+      args:
+        - dotnet_image_aspnet=mcr.microsoft.com/dotnet/aspnet:8.0
+        - dotnet_image_sdk=mcr.microsoft.com/dotnet/sdk:8.0
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Data Source=localhost;Initial Catalog=contracts;Persist Security Info=True;User ID=sa;Password=0bd7903b-f568-4894-8d72-3c1b507e5644;TrustServerCertificate=True
+      - AllowedHosts=*
+      - Jwt__Key=sdversdfregsgdsgfsdfwesdfsdfsdfsf
+      - Jwt__Issuer=GardenCommunity
+      - Jwt__Audience=GardenCommunity
+    ports:
+      - "8080:80"
+#    depends_on:
+#      contracts_db:
+#        condition: service_healthy
