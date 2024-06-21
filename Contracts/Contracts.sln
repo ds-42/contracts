@@ -47,6 +47,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Users.Api", "Users.Api\User
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Users.Application", "Users.Application\Users.Application.csproj", "{154A728B-C99F-48E3-9240-04407F462ADC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{B3A68A62-7D32-4DB0-85B6-EAA5CB722534}"
+	ProjectSection(SolutionItems) = preProject
+		..\docker\compose.yml = ..\docker\compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "env", "env", "{26D41163-A15B-4FC7-A4E7-288930802FAC}"
+	ProjectSection(SolutionItems) = preProject
+		..\docker\env\.env.containers = ..\docker\env\.env.containers
+		..\docker\env\.env.dev = ..\docker\env\.env.dev
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,6 +144,7 @@ Global
 		{68EB1498-7295-47C9-BA1E-B542A4704293} = {264E28F0-8718-49D1-BA22-55A896D9A599}
 		{7CA758F8-FBC1-48A1-A609-853FA6FAD8A5} = {99039CD7-63A4-40EC-9F94-3D69AA0B3241}
 		{154A728B-C99F-48E3-9240-04407F462ADC} = {624971EC-263F-4AE8-86BF-A8FF5856053C}
+		{26D41163-A15B-4FC7-A4E7-288930802FAC} = {B3A68A62-7D32-4DB0-85B6-EAA5CB722534}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DE1B794E-5553-49C7-8353-EB89F4F96A3B}

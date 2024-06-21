@@ -30,9 +30,9 @@ public static class DependencyInjection
     public static IHostBuilder UseApiLogger(this IHostBuilder host, IConfiguration configuration) 
     {
         return host.UseSerilog((ctx, lc) => lc
-#if DEBUG
+//#if DEBUG
             .WriteTo.Console()
-#endif
+//#endif
             .WriteTo.File($"{configuration["Logging:LogsFolder"]}/Information-.txt", LogEventLevel.Information,
                 rollingInterval: RollingInterval.Day, retainedFileCountLimit: 3, buffered: true)
             .WriteTo.File($"{configuration["Logging:LogsFolder"]}/Warning-.txt", LogEventLevel.Warning,

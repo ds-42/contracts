@@ -1,0 +1,96 @@
+networks:
+  default:
+    name: network
+     
+services:
+  contracts_db:
+    container_name: ${contracts_name}_db
+    image: ${mssql_image}
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "0bd7903b-f568-4894-8d72-3c1b507e5644"
+    ports:
+      - "1433:1433"
+
+
+  redis:
+    container_name: redis
+    image: ${redis_image}
+    ports:
+      - "16379:6379"
+
+
+  nginx:
+    container_name: nginx
+    image: ${nginx_image}
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx:/etc/nginx/templates/
+    depends_on:
+      - users_api
+      - auth_api
+      - contracts_api
+
+  users_api:
+    container_name: users_api
+    build:
+      context: ../contracts/
+      dockerfile: ./Users.Api/Dockerfile
+      args:
+        - dotnet_image_aspnet=${dotnet_image_aspnet}
+        - dotnet_image_sdk=${dotnet_image_sdk}
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=${db_connection_string}
+      - Swagger__Url=${host_url}/users/
+      - AllowedHosts=*
+      - Jwt__Key=${jwt_key}
+      - Jwt__Issuer=${jwt_issuer}
+      - Jwt__Audience=${jwt_audience}
+    ports:
+      - "8081:8080"
+    depends_on:
+      - contracts_db
+
+
+  auth_api:
+    container_name: auth_api
+    build:
+      context: ../contracts/
+      dockerfile: ./Auth.Api/Dockerfile
+      args:
+        - dotnet_image_aspnet=${dotnet_image_aspnet}
+        - dotnet_image_sdk=${dotnet_image_sdk}
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=${db_connection_string}
+      - AllowedHosts=*
+      - Jwt__Key=${jwt_key}
+      - Jwt__Issuer=${jwt_issuer}
+      - Jwt__Audience=${jwt_audience}
+    ports:
+      - "8082:8080"
+    depends_on:
+      - contracts_db
+
+
+  contracts_api:
+    container_name: contracts_api
+    build:
+      context: ../contracts/
+      dockerfile: ./Contracts.Api/Dockerfile
+      args:
+        - dotnet_image_aspnet=${dotnet_image_aspnet}
+        - dotnet_image_sdk=${dotnet_image_sdk}
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=${db_connection_string}
+      - AllowedHosts=*
+      - Jwt__Key=${jwt_key}
+      - Jwt__Issuer=${jwt_issuer}
+      - Jwt__Audience=${jwt_audience}
+    ports:
+      - "8083:8080"
+    depends_on:
+      - contracts_db

@@ -33,11 +33,11 @@ try
 //    app.RunDbMigrations().RegisterApis(Assembly.GetExecutingAssembly(), $"api/{version}");
 
     app.UseCoreExceptionHandler();
-    if (app.Environment.IsDevelopment())
-    {
+//    if (app.Environment.IsDevelopment())
+//    {
         app.UseSwagger();
         app.UseSwaggerUI();
-    }
+//    }
 
     app.UseAuthentication();
 
