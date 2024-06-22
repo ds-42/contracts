@@ -26,7 +26,10 @@ try
         .AddCoreAuthServices()
         .AddAllCors()
         .AddContractsApplication()
-        .AddEndpointsApiExplorer();
+        .AddEndpointsApiExplorer()
+        .AddStackExchangeRedisCache(options => {
+            options.Configuration = builder.Configuration.GetConnectionString("Radis");
+        });
 
     var app = builder.Build();
 
