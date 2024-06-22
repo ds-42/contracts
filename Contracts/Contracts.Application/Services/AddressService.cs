@@ -12,7 +12,7 @@ namespace Contracts.Application.Services;
 
 public class AddressService(
     IBaseWriteRepository<Address> addresses,
-    AddressMemoryCache cache,
+    AddressCache cache,
     IMapper mapper)
 {
 

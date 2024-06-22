@@ -8,7 +8,7 @@ namespace Contracts.Application.Handlers.OwnershipHandler.Queries.GetOwnership;
 
 public class GetOwnershipsQueryHandler(
     IBaseReadRepository<Ownership> ownerships,
-    OwnershipMemoryCache cache,
+    OwnershipCache cache,
     IMapper mapper) : PaginatedQueryHandler<Ownership, GetOwnershipsQuery, OwnershipDto>(ownerships, mapper, cache)
 {
 

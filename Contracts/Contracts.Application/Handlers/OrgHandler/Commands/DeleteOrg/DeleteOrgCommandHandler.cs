@@ -14,7 +14,7 @@ public class DeleteOrgCommandHandler(
     IBaseReadRepository<OrgAdmin> admins,
     IBaseReadRepository<Contract> contracts,
     ICurrentUserService user,
-    OrgMemoryCache cache) : IRequestHandler<DeleteOrgCommand, bool>
+    OrgCache cache) : IRequestHandler<DeleteOrgCommand, bool>
 {
     public async Task<bool> Handle(DeleteOrgCommand command, CancellationToken cancellationToken)
     {

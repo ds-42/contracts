@@ -15,14 +15,14 @@ public class UpdateEmployeeCommandHandler(
     IBaseWriteRepository<Employee> employees,
     IBaseReadRepository<OrgAdmin> admins,
     ICurrentUserService user,
-    EmployeeMemoryCache cache,
+    EmployeeCache cache,
     IMapper mapper) : IRequestHandler<UpdateEmployeeCommand, EmployeeDto>
 {
     public async Task<EmployeeDto> Handle(UpdateEmployeeCommand command, CancellationToken cancellationToken)
     {
         await admins.TestAccess(user.OrgId, user.Id, cancellationToken);
 
-        var employee = await employees.GetItem(user.OrgId, command.Id, cancellationToken);
+        var employee = await employees.GetItem(user.OrgId, command.UserId, cancellationToken);
 
         mapper.Map(command, employee);
 

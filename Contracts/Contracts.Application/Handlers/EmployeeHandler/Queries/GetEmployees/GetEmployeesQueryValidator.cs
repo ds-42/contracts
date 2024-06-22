@@ -11,6 +11,5 @@ public class GetEmployeesQueryValidator : EmployeeValidator<GetEmployeesQuery>
     public GetEmployeesQueryValidator()
     {
         RuleForPagination(t => t);
-        RuleForId(t => t.OrgId);
     }
 }

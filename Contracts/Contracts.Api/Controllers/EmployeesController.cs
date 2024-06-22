@@ -2,8 +2,6 @@
 using Contracts.Application.Handlers.EmployeeHandler.Commands.DeleteEmployee;
 using Contracts.Application.Handlers.EmployeeHandler.Commands.UpdateEmployee;
 using Contracts.Application.Handlers.EmployeeHandler.Queries.GetEmployees;
-using Contracts.Application.Handlers.FormatHandler.Commands.DeleteFormat;
-using Contracts.Application.Handlers.FormatHandler.Commands.UpdateFormat;
 using Core.Api.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -28,32 +26,32 @@ public class EmployeesController : AuthController
 
     [HttpPost]
     public async Task<IActionResult> CreateEmployee(
-        CreateEmployeeCommand command, 
+        CreateEmployeeCommand command,
         CancellationToken cancellationToken = default)
     {
         var employee = await ExecQueryAsync(command, cancellationToken);
 
-        return Created($"Employees/{employee.Id}", employee);
+        return Created($"Employees/{employee.UserId}", employee);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{userId}")]
     public async Task<IActionResult> UpdateEmployee(
-        int id,
+        int userId,
         UpdateEmployeeCommand command,
         CancellationToken cancellationToken = default)
     {
-        command.Id = id;
+        command.UserId = userId;
         var employee = await ExecQueryAsync(command, cancellationToken);
 
         return Ok(employee);
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{userId}")]
     public async Task<IActionResult> DeleteEmployee(
-        int id,
+        int userId,
         CancellationToken cancellationToken = default)
     {
-        var command = new DeleteEmployeeCommand() { Id = id };
+        var command = new DeleteEmployeeCommand() { UserId = userId };
         await ExecQueryAsync(command, cancellationToken);
 
         return Ok();

@@ -11,7 +11,7 @@ namespace Contracts.Application.Handlers.FormatTypeHandler.Commands.UpdateFormat
 public class UpdateFormatTypeCommandHandler(
     IBaseWriteRepository<FormatType> formatTypes,
     ICurrentUserService user,
-    FormatTypeMemoryCache cache,
+    FormatTypeCache cache,
     IMapper _mapper) : IRequestHandler<UpdateFormatTypeCommand, FormatTypeDto>
 {
     public async Task<FormatTypeDto> Handle(UpdateFormatTypeCommand command, CancellationToken cancellationToken)

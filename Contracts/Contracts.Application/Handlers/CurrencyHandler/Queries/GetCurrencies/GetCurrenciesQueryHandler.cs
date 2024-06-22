@@ -12,7 +12,7 @@ namespace Contracts.Application.Handlers.EmployeeHandler.Queries.GetEmployees;
 
 public class GetCurrenciesQueryHandler(
     IBaseReadRepository<Currency> currencies,
-    CurrencyMemoryCache cache,
+    CurrencyCache cache,
     IMapper mapper) : PaginatedQueryHandler<Currency, GetCurrenciesQuery, CurrencyDto>(currencies, mapper, cache)
 {
 }

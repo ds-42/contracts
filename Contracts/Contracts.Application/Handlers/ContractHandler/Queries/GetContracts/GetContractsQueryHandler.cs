@@ -14,7 +14,7 @@ public class GetContractsQueryHandler(
         IBaseReadRepository<Contract> contracts,
         IBaseReadRepository<Employee> employees,
         ICurrentUserService user,
-        ContractMemoryCache cache,
+        ContractCache cache,
         IMapper mapper) : PaginatedQueryHandler<Contract, GetContractsQuery, ContractExDto>(contracts, mapper, cache)
 {
 

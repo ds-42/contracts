@@ -12,7 +12,7 @@ public class UpdateFormatCommandHandler(
     IBaseWriteRepository<Format> formats,
     IBaseWriteRepository<Employee> employees,
     ICurrentUserService user,
-    FormatMemoryCache cache,
+    FormatCache cache,
     IMapper _mapper) : IRequestHandler<UpdateFormatCommand, FormatDto>
 {
     public async Task<FormatDto> Handle(UpdateFormatCommand command, CancellationToken cancellationToken)

@@ -7,7 +7,7 @@ namespace Contracts.Application.Handlers.ContractHandler.Commands.UpdateContract
 
 public class UpdateContractCommandHandler(
     СontractorService contractor,
-    ContractMemoryCache cache,
+    ContractCache cache,
     IMapper _mapper) : IRequestHandler<UpdateContractCommand, ContractDto>
 {
     public async Task<ContractDto> Handle(UpdateContractCommand command, CancellationToken cancellationToken)

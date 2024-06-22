@@ -12,16 +12,16 @@ namespace Contracts.Application.Handlers.EmployeeHandler.Queries.GetEmployees;
 public class GetEmployeesQueryHandler(
     IBaseReadRepository<Employee> employes,
     ICurrentUserService user,
-    EmployeeMemoryCache cache,
+    EmployeeCache cache,
     IMapper mapper) : PaginatedQueryHandler<Employee, GetEmployeesQuery, EmployeeDto>(employes, mapper, cache)
 {
     protected override async Task TestDataAccessAsync(GetEmployeesQuery query, CancellationToken cancellationToken)
     {
-        await _source.TestAccess(query.OrgId, user.Id, cancellationToken);
+        await _source.TestAccess(user.OrgId, user.Id, cancellationToken);
     }
 
     protected override Expression<Func<Employee, bool>>? Filter(GetEmployeesQuery query)
     {
-        return t => t.OrgId == query.OrgId;
+        return t => t.OrgId == user.OrgId;
     }
 }

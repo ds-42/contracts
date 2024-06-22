@@ -12,7 +12,7 @@ try
     builder.Services.AddControllers();
     builder.Services
         .AddAuthApplication()
-        .AddCoreApiServices()
+        .AddCoreApiServices(builder.Configuration)
         .AddCoreAuthApiServices(builder.Configuration)
         .AddPersistenceServices(builder.Configuration)
         .AddEndpointsApiExplorer()

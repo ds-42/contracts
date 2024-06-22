@@ -15,7 +15,7 @@ public class CreateContractCommandHandler(
     IBaseWriteRepository<Contract> contracts,
     IBaseWriteRepository<Currency> currencies,
     IBaseWriteRepository<Format> formats,
-    ContractMemoryCache cache,
+    ContractCache cache,
     IMapper _mapper) : IRequestHandler<CreateContractCommand, ContractDto>
 {
     public async Task<ContractDto> Handle(CreateContractCommand command, CancellationToken cancellationToken)

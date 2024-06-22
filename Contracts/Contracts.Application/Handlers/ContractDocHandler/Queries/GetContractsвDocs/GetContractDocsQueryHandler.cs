@@ -12,7 +12,7 @@ namespace Contracts.Application.Handlers.ContractDocHandler.Queries.GetContracts
 public class GetContractDocsQueryHandler(
         IBaseReadRepository<Document> documents,
         СontractorService contractor,
-        DocumentMemoryCache cache,
+        DocumentCache cache,
         IMapper mapper) : PaginatedQueryHandler<Document, GetContractDocsQuery, DocumentDto>(documents, mapper, cache)
 {
 

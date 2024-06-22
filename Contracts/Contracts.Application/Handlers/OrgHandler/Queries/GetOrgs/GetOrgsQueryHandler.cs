@@ -12,7 +12,7 @@ public class OrgsGetHandler(
         IBaseReadRepository<Org> orgs,
         IBaseReadRepository<Employee> employees,
         ICurrentUserService user,
-        OrgMemoryCache cache,
+        OrgCache cache,
         IMapper mapper) : PaginatedQueryHandler<Org, GetOrgsQuery, OrgExDto>(orgs, mapper, cache)
 {
     protected override async Task<Expression<Func<Org, bool>>?> FilterAsync(GetOrgsQuery query, CancellationToken cancellationToken)

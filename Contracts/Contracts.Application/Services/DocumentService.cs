@@ -24,7 +24,7 @@ public class DocumentService(
     ICurrentUserService user,
     IBaseReadRepository<Domain.File> files,
     IConfiguration configuration,
-    DocumentMemoryCache cache,
+    DocumentCache cache,
     IMapper _mapper)
 {
     public async Task<Domain.Document> GetDocumentAsync(int id, CancellationToken cancellationToken)

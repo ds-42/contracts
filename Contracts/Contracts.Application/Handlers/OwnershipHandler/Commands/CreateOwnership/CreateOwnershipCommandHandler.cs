@@ -10,7 +10,7 @@ namespace Contracts.Application.Handlers.OwnershipHandler.Commands.CreateOwnersh
 public class CreateOwnershipCommandHandler(
     IBaseWriteRepository<Ownership> Ownerships,
     ICurrentUserService user,
-    OwnershipMemoryCache cache,
+    OwnershipCache cache,
     IMapper _mapper) : IRequestHandler<CreateOwnershipCommand, OwnershipDto>
 {
     public async Task<OwnershipDto> Handle(CreateOwnershipCommand command, CancellationToken cancellationToken)

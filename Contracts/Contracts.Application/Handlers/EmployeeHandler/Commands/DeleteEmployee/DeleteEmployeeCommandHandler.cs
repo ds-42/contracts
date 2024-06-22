@@ -12,13 +12,13 @@ public class DeleteEmployeeCommandHandler(
     IBaseWriteRepository<Employee> employees,
     IBaseReadRepository<OrgAdmin> admins,
     ICurrentUserService user,
-    FormatMemoryCache cache) : IRequestHandler<DeleteEmployeeCommand, bool>
+    EmployeeCache cache) : IRequestHandler<DeleteEmployeeCommand, bool>
 {
     public async Task<bool> Handle(DeleteEmployeeCommand command, CancellationToken cancellationToken)
     {
         await admins.TestAccess(user.OrgId, user.Id, cancellationToken);
 
-        var employee = await employees.GetItem(user.OrgId, command.Id, cancellationToken);
+        var employee = await employees.GetItem(user.OrgId, command.UserId, cancellationToken);
 
         await employees.RemoveAsync(employee, cancellationToken);
 

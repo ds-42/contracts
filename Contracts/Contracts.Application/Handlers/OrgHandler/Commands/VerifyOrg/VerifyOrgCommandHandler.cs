@@ -10,7 +10,7 @@ namespace Contracts.Application.Handlers.OrgHandler.Commands.VerifyOrg;
 public class VerifyOrgCommandHandler(
     IBaseWriteRepository<Org> orgs,
     ICurrentUserService user,
-    OrgMemoryCache cache) : IRequestHandler<VerifyOrgCommand, bool>
+    OrgCache cache) : IRequestHandler<VerifyOrgCommand, bool>
 {
     public async Task<bool> Handle(VerifyOrgCommand command, CancellationToken cancellationToken)
     {

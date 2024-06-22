@@ -8,7 +8,7 @@ namespace Contracts.Application.Handlers.ContractDocHandler.Commands.CreateContr
 public class CreateContractDocCommandHandler(
     СontractorService contractor,
     DocumentService docs,
-    ContractMemoryCache cache) : IRequestHandler<CreateContractDocCommand, DocumentDto>
+    ContractCache cache) : IRequestHandler<CreateContractDocCommand, DocumentDto>
 {
     public async Task<DocumentDto> Handle(CreateContractDocCommand command, CancellationToken cancellationToken)
     {

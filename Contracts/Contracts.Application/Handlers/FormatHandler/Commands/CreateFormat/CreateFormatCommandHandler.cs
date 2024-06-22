@@ -10,7 +10,7 @@ namespace Contracts.Application.Handlers.FormatHandler.Commands.CreateFormat;
 public class CreateFormatCommandHandler(
     IBaseWriteRepository<Format> formats,
     СontractorService contractor,
-    FormatMemoryCache cache,
+    FormatCache cache,
     IMapper _mapper) : IRequestHandler<CreateFormatCommand, FormatDto>
 {
     public async Task<FormatDto> Handle(CreateFormatCommand command, CancellationToken cancellationToken)

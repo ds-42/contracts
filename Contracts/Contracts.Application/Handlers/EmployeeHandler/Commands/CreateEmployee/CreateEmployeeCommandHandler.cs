@@ -15,7 +15,7 @@ public class CreateEmployeeCommandHandler(
     IBaseWriteRepository<Employee> employes,
     IBaseReadRepository<OrgAdmin> admins,
     ICurrentUserService user,
-    EmployeeMemoryCache cache,
+    EmployeeCache cache,
     IMapper _mapper) : IRequestHandler<CreateEmployeeCommand, EmployeeDto>
 {
     public async Task<EmployeeDto> Handle(CreateEmployeeCommand command, CancellationToken cancellationToken)

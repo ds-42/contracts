@@ -13,7 +13,7 @@ public class DeleteOwnershipCommandHandler(
     IBaseWriteRepository<Ownership> ownerships,
     IBaseWriteRepository<Org> orgs,
     ICurrentUserService user,
-    OwnershipMemoryCache cache) : IRequestHandler<DeleteOwnershipCommand, bool>
+    OwnershipCache cache) : IRequestHandler<DeleteOwnershipCommand, bool>
 {
     public async Task<bool> Handle(DeleteOwnershipCommand command, CancellationToken cancellationToken)
     {

@@ -15,13 +15,6 @@ public class CurrentUserService : ICurrentUserService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    /**lai    public int UserId => int.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-
-        public string[] UserRoles => _httpContextAccessor.HttpContext.User.Claims
-            .Where(t => t.Type == ClaimTypes.Role)
-            .Select(t => t.Value)
-            .ToArray();**/
-
     public bool IsAdmin => CurrentUserRole == ApplicationUserRolesEnum.Admin;
 
     public int Id
@@ -43,26 +36,6 @@ public class CurrentUserService : ICurrentUserService
             return int.Parse(val);
         }
     }
-
-    /*
-        protected int OrganizationId { get {
-                var orgId = HttpContext.Request.Headers["OrganizationId"];
-    /*            org.ToString();
-                foreach (var header in HttpContext.Request.Headers)
-                {
-                    header.Value
-                    stringBuilder.Append($"<tr><td>{header.Key}</td><td>{header.Value}</td></tr>");
-                }
-                HttpContext.
-                HttpContext.Request.Headers.TryGetValue("OrganizationId", out StringValues headerValue);
-                headerValue.
-
-                    var id = HttpContext.Request.Headers["OrganizationId"];
-            return 0;
-
-        } }
-
-     */
 
     public ApplicationUserRolesEnum CurrentUserRole
     {

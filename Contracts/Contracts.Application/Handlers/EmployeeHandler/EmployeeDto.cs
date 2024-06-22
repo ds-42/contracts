@@ -5,7 +5,7 @@ namespace Contracts.Application.Handlers.EmployeeHandler;
 
 public class EmployeeDto : IMapFrom<Employee>
 {
-    public int Id { get; set; }
+    public int UserId { get; set; }
     public string Surname { get; set; } = default!;
     public string Name { get; set; } = default!;
     public string Patronymic { get; set; } = default!;

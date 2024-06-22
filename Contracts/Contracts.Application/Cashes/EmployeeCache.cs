@@ -1,7 +1,9 @@
 ﻿using Contracts.Application.Handlers.EmployeeHandler;
+using Core.Application.Abstractions;
 using Core.Application.BaseRealizations;
 using Core.Application.DTOs;
 
 namespace Contracts.Application.Cashes;
 
-public class EmployeeMemoryCache : BaseCache<CountableList<EmployeeDto>>;
+public class EmployeeCache(ICacheService cache) :
+    BaseCache<CountableList<EmployeeDto>>(cache);

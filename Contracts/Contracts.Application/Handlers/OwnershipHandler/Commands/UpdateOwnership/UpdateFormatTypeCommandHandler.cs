@@ -11,7 +11,7 @@ namespace Contracts.Application.Handlers.OwnershipHandler.Commands.UpdateOwnersh
 public class UpdateOwnershipCommandHandler(
     IBaseWriteRepository<Ownership> ownerships,
     ICurrentUserService user,
-    OwnershipMemoryCache cache,
+    OwnershipCache cache,
     IMapper _mapper) : IRequestHandler<UpdateOwnershipCommand, OwnershipDto>
 {
     public async Task<OwnershipDto> Handle(UpdateOwnershipCommand command, CancellationToken cancellationToken)

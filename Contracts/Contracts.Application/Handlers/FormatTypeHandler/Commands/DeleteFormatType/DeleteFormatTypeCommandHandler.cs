@@ -12,7 +12,7 @@ public class DeleteFormatTypeCommandHandler(
     IBaseWriteRepository<Format> formats,
     IBaseWriteRepository<FormatType> formatTypes,
     ICurrentUserService user,
-    FormatTypeMemoryCache cache) : IRequestHandler<DeleteFormatTypeCommand, bool>
+    FormatTypeCache cache) : IRequestHandler<DeleteFormatTypeCommand, bool>
 {
     public async Task<bool> Handle(DeleteFormatTypeCommand command, CancellationToken cancellationToken)
     {

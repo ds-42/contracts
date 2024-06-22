@@ -19,17 +19,14 @@ try
     builder.Services.AddControllers();
     builder.Services
         .AddSwaggerWidthJwtAuth(Assembly.GetExecutingAssembly(), appName, version, appName)
-        .AddCoreApiServices()
+        .AddCoreApiServices(builder.Configuration)
         .AddCoreApplicationServices()
         .AddCoreAuthApiServices(builder.Configuration)
         .AddPersistenceServices(builder.Configuration)
         .AddCoreAuthServices()
         .AddAllCors()
         .AddContractsApplication()
-        .AddEndpointsApiExplorer()
-        .AddStackExchangeRedisCache(options => {
-            options.Configuration = builder.Configuration.GetConnectionString("Radis");
-        });
+        .AddEndpointsApiExplorer();
 
     var app = builder.Build();
 

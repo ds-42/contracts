@@ -10,7 +10,7 @@ namespace Contracts.Application.Handlers.CurrencyHandler.Commands.DeleteCurrency
 public class DeleteCurrencyCommandHandler(
     IBaseWriteRepository<Currency> currencies,
     ICurrentUserService user,
-    CurrencyMemoryCache cache) : IRequestHandler<DeleteCurrencyCommand, bool>
+    CurrencyCache cache) : IRequestHandler<DeleteCurrencyCommand, bool>
 {
     public async Task<bool> Handle(DeleteCurrencyCommand command, CancellationToken cancellationToken)
     {

@@ -12,7 +12,7 @@ namespace Contracts.Application.Handlers.PartnerHandler.Queries.GetPartners;
 public class GetPartnersHandler(
         IBaseReadRepository<Partner> partners,
         ICurrentUserService user,
-        PartnerMemoryCache cache,
+        PartnerCache cache,
         IMapper mapper) : PaginatedQueryHandler<Partner, GetPartnersQuery, PartnerDto>(partners, mapper, cache)
 {
     protected override Expression<Func<Partner, bool>>? Filter(GetPartnersQuery query)

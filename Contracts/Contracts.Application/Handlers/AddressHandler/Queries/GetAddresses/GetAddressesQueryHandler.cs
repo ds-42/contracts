@@ -9,7 +9,7 @@ namespace Contracts.Application.Handlers.AddressHandler.Queries.GetAddresses;
 
 public class GetAddressesQueryHandler(
     IBaseReadRepository<Address> addresses,
-    AddressMemoryCache cache,
+    AddressCache cache,
     IMapper mapper) : PaginatedQueryHandler<Address, GetAddressesQuery, AddressDto>(addresses, mapper, cache)
 {
     protected override Expression<Func<Address, bool>>? Filter(GetAddressesQuery query)

@@ -8,7 +8,7 @@ namespace Contracts.Application.Handlers.FormatTypeHandler.Queries.GetFormatType
 
 public class GetFormatTypesQueryHandler(
     IBaseReadRepository<FormatType> formatTypes,
-    FormatTypeMemoryCache cache,
+    FormatTypeCache cache,
     IMapper mapper) : PaginatedQueryHandler<FormatType, GetFormatTypesQuery, FormatTypeDto>(formatTypes, mapper, cache)
 {
 

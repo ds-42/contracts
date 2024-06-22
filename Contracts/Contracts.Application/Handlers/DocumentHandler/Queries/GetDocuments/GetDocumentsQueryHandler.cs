@@ -9,7 +9,7 @@ namespace Contracts.Application.Handlers.DocumentHandler.Queries.GetDocuments;
 
 public class GetDocumentsQueryHandler(
     IBaseReadRepository<Document> documents,
-    DocumentMemoryCache cache,
+    DocumentCache cache,
     IMapper mapper) : PaginatedQueryHandler<Document, GetDocumentsQuery, DocumentDto>(documents, mapper, cache)
 {
     protected override Expression<Func<Document, bool>>? Filter(GetDocumentsQuery query)

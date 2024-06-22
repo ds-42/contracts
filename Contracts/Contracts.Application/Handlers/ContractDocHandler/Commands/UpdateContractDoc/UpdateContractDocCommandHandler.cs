@@ -8,7 +8,7 @@ namespace Contracts.Application.Handlers.ContractDocHandler.Commands.UpdateContr
 public class UpdateContractDocCommandHandler(
     СontractorService contractor,
     DocumentService docs,
-    ContractMemoryCache cache)
+    ContractCache cache)
         : IRequestHandler<UpdateContractDocCommand, DocumentDto>
 {
     public async Task<DocumentDto> Handle(UpdateContractDocCommand command, CancellationToken cancellationToken)

@@ -7,7 +7,7 @@ namespace Contracts.Application.Handlers.AddressHandler.Commands.UpdateAddress;
 public class UpdateOrgAddressCommandHandler(
     AddressService addresses,
     СontractorService contractor,
-    OrgMemoryCache cache) : IRequestHandler<UpdateOrgAddressCommand, AddressDto>
+    OrgCache cache) : IRequestHandler<UpdateOrgAddressCommand, AddressDto>
 {
     public async Task<AddressDto> Handle(UpdateOrgAddressCommand command, CancellationToken cancellationToken)
     {

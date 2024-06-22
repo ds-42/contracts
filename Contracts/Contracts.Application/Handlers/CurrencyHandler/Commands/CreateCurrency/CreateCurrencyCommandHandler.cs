@@ -14,7 +14,7 @@ namespace Contracts.Application.Handlers.CurrencyHandler.Commands.CreateCurrency
 public class CreateCurrencyCommandHandler(
     IBaseWriteRepository<Currency> currencies,
     ICurrentUserService user,
-    CurrencyMemoryCache cache,
+    CurrencyCache cache,
     IMapper _mapper) : IRequestHandler<CreateCurrencyCommand, CurrencyDto>
 {
     public async Task<CurrencyDto> Handle(CreateCurrencyCommand command, CancellationToken cancellationToken)

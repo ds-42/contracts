@@ -8,7 +8,7 @@ public class UpdateEmployeeCommandValidator : EmployeeValidator<UpdateEmployeeCo
 {
     public UpdateEmployeeCommandValidator()
     {
-        RuleForId(t => t.Id);
+        RuleForId(t => t.UserId);
         RuleForSurname(t => t.Surname);
         RuleForName(t => t.Name);
         RuleForPatronymic(t => t.Patronymic);

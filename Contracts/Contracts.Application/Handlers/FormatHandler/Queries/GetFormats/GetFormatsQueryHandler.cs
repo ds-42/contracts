@@ -11,7 +11,7 @@ namespace Contracts.Application.Handlers.FormatHandler.Queries.GetFormats;
 public class GetFormatsQueryHandler(
     IBaseReadRepository<Format> formats,
     ICurrentUserService user,
-    FormatMemoryCache cache,
+    FormatCache cache,
     IMapper mapper) : PaginatedQueryHandler<Format, GetFormatsQuery, FormatExDto>(formats, mapper, cache)
 {
     protected override Expression<Func<Format, bool>>? Filter(GetFormatsQuery query)

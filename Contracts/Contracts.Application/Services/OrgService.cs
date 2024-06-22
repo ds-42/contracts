@@ -19,7 +19,7 @@ public class OrgService(
     ICurrentUserService user,
     IBaseWriteRepository<OrgAdmin> admins,
     IBaseReadRepository<Address> addresses,
-    OrgMemoryCache cache,
+    OrgCache cache,
     IMapper mapper)
 {
     public async Task<OrgDto> GetOrg(int orgId, CancellationToken cancellationToken)

@@ -1,35 +1,27 @@
 ﻿using Core.Application.Abstractions;
 using Core.Application.Extensions;
-using Microsoft.Extensions.Caching.Distributed;
-using StackExchange.Redis;
 using System.Text.Json;
 
 
 namespace Core.Application.BaseRealizations;
 
 public abstract class BaseCache<TItem>(
-    IDistributedCache distributedCache,
-    IServer redisServer) : IBaseCache<TItem> where TItem : class
+    ICacheService cache) : IBaseCache<TItem> 
 {
-    protected virtual int AbsoluteExpiration => 10;
-
-    protected virtual int SlidingExpiration => 5;
+    private string ItemName => GetType().Name;
+    protected string CreateKey(string key) => $"{ItemName}_{key}";
 
     public void Set(string key, TItem item, int size)
     {
-        distributedCache.SetString(key, item.JsonSerialize(), new DistributedCacheEntryOptions()
-        {
-            AbsoluteExpiration = new DateTimeOffset(0, 0, 0, 0, 0, 0, TimeSpan.FromMinutes(AbsoluteExpiration)),
-            SlidingExpiration = TimeSpan.FromMinutes(SlidingExpiration),
-        });
+        cache.Set(CreateKey(key), item.JsonSerialize());
     }
 
     public bool TryGetValue(string key, out TItem? item)
     {
-        var itemString = distributedCache.GetString(key);
+        var itemString = cache.Get(CreateKey(key));
         if (String.IsNullOrEmpty(itemString))
         {
-            item = null;
+            item = default;
             return false;
         }
         item = JsonSerializer.Deserialize<TItem>(itemString, new JsonSerializerOptions()
@@ -41,11 +33,11 @@ public abstract class BaseCache<TItem>(
 
     public void DeleteItem(string key)
     {
-        distributedCache.Remove(key);
+        cache.Remove(CreateKey(key));
     }
 
     public void Clear()
     {
-        redisServer.FlushAllDatabasesAsync();
+        cache.RemoveKeys(ItemName + "*");
     }
 }

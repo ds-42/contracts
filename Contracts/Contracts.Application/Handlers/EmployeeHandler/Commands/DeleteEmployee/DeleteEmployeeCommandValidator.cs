@@ -4,6 +4,6 @@ public class DeleteEmployeeCommandValidator : EmployeeValidator<DeleteEmployeeCo
 {
     public DeleteEmployeeCommandValidator()
     {
-        RuleForId(t => t.Id);
+        RuleForId(t => t.UserId);
     }
 }

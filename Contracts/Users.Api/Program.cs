@@ -20,8 +20,8 @@ try
 //        .AddSwaggerWidthJwtAuth(Assembly.GetExecutingAssembly(), appName, version, appName)
         .AddSwaggerGen()
         .AddCoreApplicationServices()
-        .AddUsersApplication()
-        .AddCoreApiServices()
+        .AddUsersApplication(builder.Configuration)
+        .AddCoreApiServices(builder.Configuration)
         .AddCoreAuthApiServices(builder.Configuration)
         .AddPersistenceServices(builder.Configuration)
         .AddEndpointsApiExplorer();

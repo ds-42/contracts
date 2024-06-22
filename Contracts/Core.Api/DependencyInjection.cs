@@ -1,20 +1,19 @@
-using Microsoft.Extensions.Hosting;
+using Core.Api.JsonSerializer;
+using Core.Application.Abstractions;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http.Json;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-using System.Text.Json.Serialization;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Http.Json;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.OpenApi.Models;
-using Core.Api.JsonSerializer;
+using System.Text.Json.Serialization;
 
 namespace Core.Api;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddCoreApiServices(this IServiceCollection services)
+    public static IServiceCollection AddCoreApiServices(this IServiceCollection services, IConfiguration config)
     {
         return services
             .AddHttpContextAccessor()
@@ -24,15 +23,20 @@ public static class DependencyInjection
                 options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             })
-            .AddResponseCompression(options => { options.EnableForHttps = true; });
+            .AddResponseCompression(options => { options.EnableForHttps = true; })
+            .AddTransient<ICacheService, CacheService>()
+            .AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = config.GetConnectionString("Redis");
+            });
     }
 
-    public static IHostBuilder UseApiLogger(this IHostBuilder host, IConfiguration configuration) 
+    public static IHostBuilder UseApiLogger(this IHostBuilder host, IConfiguration configuration)
     {
         return host.UseSerilog((ctx, lc) => lc
-//#if DEBUG
+            //#if DEBUG
             .WriteTo.Console()
-//#endif
+            //#endif
             .WriteTo.File($"{configuration["Logging:LogsFolder"]}/Information-.txt", LogEventLevel.Information,
                 rollingInterval: RollingInterval.Day, retainedFileCountLimit: 3, buffered: true)
             .WriteTo.File($"{configuration["Logging:LogsFolder"]}/Warning-.txt", LogEventLevel.Warning,
@@ -41,41 +45,41 @@ public static class DependencyInjection
                 rollingInterval: RollingInterval.Day, retainedFileCountLimit: 30, buffered: true));
     }
 
-public static IServiceCollection AddAllCors(this IServiceCollection services)
-{
-    return services
-        .AddCors(options =>
-        {
-            options.AddPolicy(CorsPolicy.AllowAll, policy =>
-            {
-                policy.AllowAnyHeader();
-                policy.AllowAnyMethod();
-                policy.AllowAnyOrigin();
-                policy.WithExposedHeaders("*");
-            });
-        });
-}
-        
-/*    public static IServiceCollection AddSwagger(
-        this IServiceCollection services,
-        Assembly apiAssembly,
-        string appName,
-        string version,
-        string description)
+    public static IServiceCollection AddAllCors(this IServiceCollection services)
     {
-        return services.AddEndpointsApiExplorer()
-            .AddSwaggerGen(options =>
+        return services
+            .AddCors(options =>
             {
-                options.SwaggerDoc(version, new OpenApiInfo
+                options.AddPolicy(CorsPolicy.AllowAll, policy =>
                 {
-                    Version = version,
-                    Title = appName,
-                    Description = description
+                    policy.AllowAnyHeader();
+                    policy.AllowAnyMethod();
+                    policy.AllowAnyOrigin();
+                    policy.WithExposedHeaders("*");
                 });
-                    
-                // using System.Reflection;
-                var xmlFilename = $"{apiAssembly.GetName().Name}.xml";
-                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
-    }*/
+    }
+
+    /*    public static IServiceCollection AddSwagger(
+            this IServiceCollection services,
+            Assembly apiAssembly,
+            string appName,
+            string version,
+            string description)
+        {
+            return services.AddEndpointsApiExplorer()
+                .AddSwaggerGen(options =>
+                {
+                    options.SwaggerDoc(version, new OpenApiInfo
+                    {
+                        Version = version,
+                        Title = appName,
+                        Description = description
+                    });
+
+                    // using System.Reflection;
+                    var xmlFilename = $"{apiAssembly.GetName().Name}.xml";
+                    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+                });
+        }*/
 }

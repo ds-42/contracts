@@ -7,7 +7,7 @@ namespace Contracts.Application.Handlers.EmployeeHandler.Commands.UpdateEmployee
 
 public class UpdateEmployeeCommand : IMapTo<Employee>, IRequest<EmployeeDto>
 {
-    public int Id { get; set; }
+    public int UserId { get; set; }
     public required string Surname { get; init; }
     public required string Name { get; init; }
     public required string Patronymic { get; init; }

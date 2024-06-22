@@ -12,7 +12,7 @@ namespace Users.Application.Handlers.Commands.CreateUser;
 
 public class CreateUserCommandHandler(
     IBaseWriteRepository<User> _users,
-    UsersMemoryCache _cache,
+    UsersCache _cache,
     IMapper _mapper) : IRequestHandler<CreateUserCommand, GetUserDto>
 {
     public async Task<GetUserDto> Handle(CreateUserCommand command, CancellationToken cancellationToken)

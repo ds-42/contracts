@@ -9,7 +9,7 @@ namespace Contracts.Application.Handlers.OrgAddressHandler.Commands.CreateOrgAdd
 public class CreateOrgAddressCommandHandler(
     AddressService addresses,
     СontractorService contractor,
-    OrgMemoryCache cache) : IRequestHandler<CreateOrgAddressCommand, AddressDto>
+    OrgCache cache) : IRequestHandler<CreateOrgAddressCommand, AddressDto>
 {
     public async Task<AddressDto> Handle(CreateOrgAddressCommand command, CancellationToken cancellationToken)
     {

@@ -12,7 +12,7 @@ namespace Contracts.Application.Handlers.OrgAddressHandler.Queries.GetOrgAddress
 public class GetOrgAddressesQueryHandler(
         IBaseReadRepository<Address> addresses,
         СontractorService contractor,
-        AddressMemoryCache cache,
+        AddressCache cache,
         IMapper mapper) : PaginatedQueryHandler<Address, GetOrgAddressesQuery, AddressDto>(addresses, mapper, cache)
 {
 

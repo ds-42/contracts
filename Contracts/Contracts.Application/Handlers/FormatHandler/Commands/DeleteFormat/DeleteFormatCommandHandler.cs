@@ -11,7 +11,7 @@ public class DeleteFormatCommandHandler(
     IBaseWriteRepository<Format> formats,
     IBaseWriteRepository<Employee> employees,
     ICurrentUserService user,
-    FormatMemoryCache cache) : IRequestHandler<DeleteFormatCommand, bool>
+    FormatCache cache) : IRequestHandler<DeleteFormatCommand, bool>
 {
     public async Task<bool> Handle(DeleteFormatCommand command, CancellationToken cancellationToken)
     {
