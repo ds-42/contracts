@@ -30,14 +30,12 @@ try
 
     var app = builder.Build();
 
-//    app.RunDbMigrations().RegisterApis(Assembly.GetExecutingAssembly(), $"api/{version}");
+    app.RunDbMigrations();
 
     app.UseCoreExceptionHandler();
-//    if (app.Environment.IsDevelopment())
-//    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-//    }
+
+    app.UseSwagger();
+    app.UseSwaggerUI();
 
     app.UseAuthentication();
 

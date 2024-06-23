@@ -1,15 +1,14 @@
 using Core.Api;
-using Core.Auth.Api;
-using Users.Application;
-using Infrastructure.Persistence;
-using System.Reflection;
 using Core.Application;
+using Core.Auth.Api;
+using Infrastructure.Persistence;
+using Users.Application;
 
 try
 {
-/*    const string appPrefix = "UM";
-    const string version = "v1";
-    const string appName = "Users management API v1";*/
+    /*    const string appPrefix = "UM";
+        const string version = "v1";
+        const string appName = "Users management API v1";*/
 
     var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +16,7 @@ try
 
     builder.Services.AddControllers();
     builder.Services
-//        .AddSwaggerWidthJwtAuth(Assembly.GetExecutingAssembly(), appName, version, appName)
+        //        .AddSwaggerWidthJwtAuth(Assembly.GetExecutingAssembly(), appName, version, appName)
         .AddSwaggerGen()
         .AddCoreApplicationServices()
         .AddUsersApplication(builder.Configuration)
@@ -28,12 +27,10 @@ try
 
     var app = builder.Build();
 
-    // Configure the HTTP request pipeline.
-//    if (app.Environment.IsDevelopment())
-//    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-//    }
+    app.RunDbMigrations();
+
+    app.UseSwagger();
+    app.UseSwaggerUI();
 
     app.UseHttpsRedirection();
 
@@ -43,7 +40,7 @@ try
 
     app.Run();
 }
-catch (Exception ex) 
+catch (Exception ex)
 {
     CoreApi.FatalException(ex);
 }
