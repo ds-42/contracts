@@ -20,6 +20,11 @@ public class UploadFileCommandHandler(
         var file = await files.AddAsync(item, cancellationToken);
 
         var destPath = configuration["Files"];
+        if (!Directory.Exists(destPath))
+        {
+            Directory.CreateDirectory(destPath!);
+        }    
+            
         using (var fileStream = new FileStream($"{destPath}{file.Id}", FileMode.Create))
         {
             await command.File.CopyToAsync(fileStream);
