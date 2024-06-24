@@ -21,5 +21,7 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
         builder.Property(t => t.PhoneMobile).HasMaxLength(100).IsRequired();
         builder.Property(t => t.WWW).HasMaxLength(100).IsRequired();
         builder.Property(t => t.EMail).HasMaxLength(100).IsRequired();
+
+        builder.HasOne(t => t.User).WithMany().HasForeignKey(t => t.UserId);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Contracts.Domain.Enums;
+using Core.Users.Domain;
 
 namespace Contracts.Domain;
 
@@ -17,4 +18,5 @@ public class Employee
     public string? EMail { get; set; }
     public int UserId { get; set; }
     public EmployeeRole Role { get; set; }
+    public User User { get; set; } = default!;
 }
