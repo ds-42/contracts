@@ -41,21 +41,6 @@ namespace Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Files",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    FileName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Files", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "FormatTypes",
                 columns: table => new
                 {
@@ -99,29 +84,6 @@ namespace Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Documents",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Group = table.Column<int>(type: "int", nullable: false),
-                    Number = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    RegistryDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    FileId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Documents", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Documents_Files_FileId",
-                        column: x => x.FileId,
-                        principalTable: "Files",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Orgs",
                 columns: table => new
                 {
@@ -160,6 +122,27 @@ namespace Infrastructure.Persistence.Migrations
                         column: x => x.OwnershipId,
                         principalTable: "Ownerships",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Files",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Files", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Files_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,6 +191,12 @@ namespace Infrastructure.Persistence.Migrations
                         name: "FK_Employees_Orgs_OrgId",
                         column: x => x.OrgId,
                         principalTable: "Orgs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Employees_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -290,6 +279,29 @@ namespace Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Documents",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Group = table.Column<int>(type: "int", nullable: false),
+                    Number = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    RegistryDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    FileId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Documents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Documents_Files_FileId",
+                        column: x => x.FileId,
+                        principalTable: "Files",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Contracts",
                 columns: table => new
                 {
@@ -365,6 +377,16 @@ namespace Infrastructure.Persistence.Migrations
                 name: "IX_Employees_OrgId",
                 table: "Employees",
                 column: "OrgId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_UserId",
+                table: "Employees",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Files_UserId",
+                table: "Files",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Formats_FormatTypeId",
@@ -448,13 +470,13 @@ namespace Infrastructure.Persistence.Migrations
                 name: "Files");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
                 name: "FormatTypes");
 
             migrationBuilder.DropTable(
                 name: "Orgs");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Addresses");

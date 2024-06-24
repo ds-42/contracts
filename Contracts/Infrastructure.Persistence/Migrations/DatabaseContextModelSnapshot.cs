@@ -258,6 +258,8 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("OrgId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Employees");
                 });
 
@@ -281,6 +283,8 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Files");
                 });
@@ -573,6 +577,25 @@ namespace Infrastructure.Persistence.Migrations
                         .HasForeignKey("OrgId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Core.Users.Domain.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Contracts.Domain.File", b =>
+                {
+                    b.HasOne("Core.Users.Domain.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Contracts.Domain.Format", b =>

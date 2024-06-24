@@ -16,6 +16,7 @@ public class CreateDocumentCommand : IRequest<DocumentDto>
         Id = 0,
         Group = Group,
         Number = Number,
+        RegistryDate = RegistryDate,
         Title = Title,
         FileId = FileId,
     };
