@@ -5,6 +5,7 @@ using Core.Auth.Application.Abstractions.Service;
 using Core.Users.Domain;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Users.Application.Cashes;
 using Users.Application.DTOs;
 
 namespace Users.Application.Handlers.Commands.UpdateUser;
@@ -13,6 +14,7 @@ internal class UpdateUserCommandHandler(
     IBaseWriteRepository<User> users,
     IMapper mapper,
     ICurrentUserService currentUser,
+    UsersCache cache,
     ILogger<UpdateUserCommandHandler> logger) : IRequestHandler<UpdateUserCommand, GetUserDto>
 {
 
@@ -37,6 +39,7 @@ internal class UpdateUserCommandHandler(
         user = await users.UpdateAsync(user, cancellationToken);
         var result = mapper.Map<GetUserDto>(user);
 
+        cache.Clear();
         logger.LogWarning($"User {user.Id} updated by {currentUser.Id}");
 
         return result;

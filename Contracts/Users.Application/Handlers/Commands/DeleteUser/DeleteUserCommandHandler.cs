@@ -5,12 +5,14 @@ using Core.Users.Domain;
 using Core.Users.Domain.Enums;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Users.Application.Cashes;
 
 namespace Users.Application.Handlers.Commands.DeleteUser;
 
 internal class DeleteUserCommandHandler(
     IBaseWriteRepository<User> users,
     ICurrentUserService currentUser,
+    UsersCache cache,
     ILogger<DeleteUserCommandHandler> logger) : IRequestHandler<DeleteUserCommand, bool>
 {
     public async Task<bool> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
@@ -31,6 +33,8 @@ internal class DeleteUserCommandHandler(
         }
 
         await users.RemoveAsync(user, cancellationToken);
+
+        cache.Clear();
 
         logger.LogWarning($"User {user.Id} deleted by {currentUser.Id}");
         return true;

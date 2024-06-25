@@ -11,20 +11,20 @@ using Users.Application.Cashes;
 namespace Users.Application.Handlers.Commands.CreateUser;
 
 public class CreateUserCommandHandler(
-    IBaseWriteRepository<User> _users,
-    UsersCache _cache,
-    IMapper _mapper) : IRequestHandler<CreateUserCommand, GetUserDto>
+    IBaseWriteRepository<User> users,
+    UsersCache cache,
+    IMapper mapper) : IRequestHandler<CreateUserCommand, GetUserDto>
 {
     public async Task<GetUserDto> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {
         var login = command.Login.Trim();
 
-        if (await _users.AsAsyncRead().SingleOrDefaultAsync(t => t.Login == login, cancellationToken) != null)
+        if (await users.AsAsyncRead().SingleOrDefaultAsync(t => t.Login == login, cancellationToken) != null)
         {
             throw new BadRequestException("Invalid login or password");
         }
 
-        bool admin = await _users.AsAsyncRead().CountAsync(cancellationToken) == 0;
+        bool admin = await users.AsAsyncRead().CountAsync(cancellationToken) == 0;
 
         var user = new User()
         {
@@ -33,8 +33,8 @@ public class CreateUserCommandHandler(
             Role = admin? ApplicationUserRolesEnum.Admin : ApplicationUserRolesEnum.Client,
         };
 
-        _cache.Clear();
+        cache.Clear();
 
-        return _mapper.Map<GetUserDto>(await _users.AddAsync(user, cancellationToken));
+        return mapper.Map<GetUserDto>(await users.AddAsync(user, cancellationToken));
     }
 }
