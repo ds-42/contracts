@@ -17,7 +17,7 @@ public class CreateFormatCommandHandler(
     {
         await contractor.TestAccess(cancellationToken);
 
-        var format = command.Map();
+        var format = _mapper.Map<Format>(command);
         format.OrgId = contractor.OrgId;
 
         await formats.AddAsync(format, cancellationToken);

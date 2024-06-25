@@ -17,7 +17,9 @@ public class CreateOwnershipCommandHandler(
     {
         user.TestAccess();
 
-        var ownership = await Ownerships.AddAsync(command.Map(), cancellationToken);
+        var ownership = _mapper.Map<Ownership>(command);
+
+        await Ownerships.AddAsync(ownership, cancellationToken);
 
         cache.Clear();
 

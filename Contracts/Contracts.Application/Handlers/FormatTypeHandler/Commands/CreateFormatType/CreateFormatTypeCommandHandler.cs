@@ -17,7 +17,9 @@ public class CreateFormatTypeCommandHandler(
     {
         user.TestAccess();
 
-        var formatType = await formatTypes.AddAsync(command.Map(), cancellationToken);
+        var formatType = _mapper.Map<FormatType>(command);
+
+        await formatTypes.AddAsync(formatType, cancellationToken);
 
         cache.Clear();
 
