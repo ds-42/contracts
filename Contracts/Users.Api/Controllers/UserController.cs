@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using MediatR;
 using Users.Application.Handlers.Commands.CreateUser;
 using Core.Api.Controllers;
+using Users.Application.Handlers.Commands.ChangePassword;
+using Users.Application.Handlers.Commands.DeleteUser;
+using Users.Application.Handlers.Commands.UpdateUser;
 
 namespace Users.Api.Controllers;
 
@@ -16,31 +19,6 @@ public class UserController : BaseController
     {
     }
 
-/*    [AllowAnonymous]
-    [HttpGet]
-    public async Task<IActionResult> Get(
-        [FromQuery] GetListQuery getListQuery,
-        CancellationToken cancellationToken)
-    {
-        var getCountQuery = new GetCountQuery() { Predicate = getListQuery.Predicate };
-
-        var items = await ExecQueryAsync(getListQuery, cancellationToken);
-        var count = await ExecQueryAsync(getCountQuery, cancellationToken);
-
-        HttpContext.Response.Headers.Append("X-Total-Count", count.ToString());
-        return Ok(items);
-    }
-
-    [AllowAnonymous]
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetUser(int id, CancellationToken cancellationToken = default)
-    {
-        var item = await ExecQueryAsync(new GetByIdQuery(id), cancellationToken);
-
-        return Ok(item);
-    }*/
-
-
     [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> CreateUser(
@@ -52,15 +30,12 @@ public class UserController : BaseController
         return Created($"users/{item.Id}", item);
     }
 
-/*    [HttpPut("{id}")]
+    [HttpPut]
     public async Task<IActionResult> UpdateUser(
-        int id,
-        SetUserDto user,
+        UpdateUserCommand command,
         CancellationToken cancellationToken = default)
     {
-        var updateUserCommand = new UpdateUserCommand(){ UserId=id, User = user };
-
-        var item = await ExecCommandAsync(updateUserCommand, cancellationToken);
+        var item = await ExecCommandAsync(command, cancellationToken);
 
         return Ok(item);
     }
@@ -68,11 +43,15 @@ public class UserController : BaseController
     [HttpPatch("{id}/password")]
     public async Task<IActionResult> ChangePassword(int id, string password, CancellationToken cancellationToken = default)
     {
-        var changePasswordCommand = new ChangePasswordCommand() { UserId = id, Password = password };
-        var item = await ExecCommandAsync(changePasswordCommand, cancellationToken);
-        return Ok(item);
-    }
+        var changePasswordCommand = new ChangePasswordCommand() 
+        { 
+            UserId = id, 
+            Password = password 
+        };
 
+        var result = await ExecCommandAsync(changePasswordCommand, cancellationToken);
+        return Ok(result);
+    }
 
     [HttpDelete]
     public async Task<IActionResult> DeleteUser([FromBody] int id, CancellationToken cancellationToken = default)
@@ -80,6 +59,6 @@ public class UserController : BaseController
         var deleteUserCommand = new DeleteUserCommand() { UserId = id };
         var result = await ExecCommandAsync(deleteUserCommand, cancellationToken);
         return Ok(result);
-    }*/
+    }
 }
 
